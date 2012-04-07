@@ -96,6 +96,14 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		protected $themes = array();
 
 		/**
+		 * languages supportet by rainbow.js
+		 *
+		 * @access protected
+		 * @var array
+		 */
+		protected $langs = array();
+
+		/**
 		 * scripts of rainbow.js
 		 *
 		 * @access protected
@@ -198,6 +206,18 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 					)
 			);
 			$this->themes = apply_filters( 'cc_rainbow_themes', $themes );
+
+			$supportet_langs = array(
+				'c'          => 'C',
+				'php'        => 'PHP',
+				'css'        => 'CSS',
+				'html'       => 'HTML',
+				'ruby'       => 'Ruby',
+				'shell'      => 'Shell',
+				'phyton'     => 'Python',
+				'javascript' => 'Javascript'
+			);
+			$this->langs = apply_filters( 'cc_rainbow_languages', $supportet_langs );
 
 			$scripts = array(
 				'rainbow' =>
@@ -367,6 +387,18 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		public function get_themes() {
 
 			return $this->themes;
+		}
+
+		/**
+		 * getter for supported languages
+		 *
+		 * @access public
+		 * @since 0.1
+		 * @return array
+		 */
+		public function get_langs() {
+
+			return $this->langs;
 		}
 
 		/**
