@@ -124,6 +124,57 @@
 					);
 				}
 			);
+
+			// update (and delete) a single codeblock
+			$( '.wp-cc-single-update' ).on(
+				'click',
+				function() {
+					var ns = $( this ).attr( 'data-ns' );
+					var pid = $( this ).attr( 'data-pid' );
+					var fields = $( '#' + ns + ' .cc-data' );
+					var data = {
+						nonce  : $( '#' + wpCcGlobals.NonceFieldId ).attr( 'value' ),
+						action : wpCcGlobals.UpdateBlock,
+						pid    : pid
+					};
+					fields.each(
+						function( ) {
+							var name = $( this ).attr( 'name' ).match( /\[(\w+)\]$/ );
+							data[ name[ 1 ] ] = $( this ).attr( 'value' );
+						}
+					);
+					$.post(
+						wpCcGlobals.AjaxUrl,
+						data,
+						function( data ) {
+							if ( data.deleted ) {
+								$( '#' + ns ).slideUp(
+									'slow',
+									function() {
+										$( this ).remove();
+									}
+								);
+							}
+							else if ( data.updated ) {
+								var box = $( '#' + ns + ' .cc-input' );
+								box.css( { 'background-color': '#ff4' } );
+								box.animate(
+									{
+										backgroundColor : '#f5f5f5'
+									},
+									500,
+									function() {
+										$( this ).css( { 'background-color': 'transparent' } );
+									}
+								);
+
+							}
+						},
+						'json'
+					);
+
+				}
+			);
 		}
 	);
 

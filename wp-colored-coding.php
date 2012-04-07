@@ -340,7 +340,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 */
 		public function set_single_block( $post_id, $name, $value = array() ) {
 
-			if ( ! is_array( $value )  || empty( $value ) )
+			if ( ! is_array( $value )  || empty( $value ) || empty( $value[ 'code' ] ) )
 				unset( $this->codeblocks[ $post_id ][ $name ] );
 
 			else

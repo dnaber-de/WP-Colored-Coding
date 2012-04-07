@@ -46,7 +46,8 @@ class CC_Admin_UI {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
 		# ajax handles
-		add_action( 'wp_ajax_wp_cc_new_block', array( $this, 'single_codeblock' ), 10, 2 );
+		add_action( 'wp_ajax_wp_cc_new_block', array( $this, 'single_codeblock' ) );
+		add_action( 'wp_ajax_wp_cc_update_block', array( $this, 'update_single' ) );
 	}
 
 	/**
@@ -62,7 +63,7 @@ class CC_Admin_UI {
 		wp_enqueue_script(
 			'wp-cc-admin-script',
 			$plugin::$uri . '/js/admin.js',
-			array( 'jquery' ),
+			array( 'jquery', 'jquery-color' ),
 			$plugin::VERSION,
 			FALSE
 		);
@@ -80,6 +81,7 @@ class CC_Admin_UI {
 			array(
 				'AjaxUrl'        => admin_url( 'admin-ajax.php' ),
 				'NonceFieldId'   => 'wp-cc-nonce',
+				'UpdateBlock'    => 'wp_cc_update_block',
 				'NewBlockAction' => 'wp_cc_new_block'
 			)
 		);
@@ -163,7 +165,7 @@ class CC_Admin_UI {
 			exit;
 
 		?>
-		<li class="wp-cc-single-block">
+		<li id="<?php echo $ns; ?>" class="wp-cc-single-block">
 			<div class="postbox">
 				<div class="inside">
 					<div class="cc-input">
@@ -172,6 +174,7 @@ class CC_Admin_UI {
 								<label for="name-<?php echo $ns; ?>"><?php _e( 'Name', 'wp-cc' ); ?></label>
 								<input
 									id="name-<?php echo $ns; ?>"
+									class="cc-data"
 									type="text"
 									name="wp-cc[block][<?php echo $ns; ?>][name]"
 									value="<?php echo $v[ 'name' ]; ?>"
@@ -182,6 +185,7 @@ class CC_Admin_UI {
 								<label for="lang-<?php echo $ns; ?>"><?php _e( 'Language', 'wp-cc' ); ?></label>
 								<input
 									id="lang-<?php echo $ns; ?>"
+									class="cc-data"
 									type="text"
 									name="wp-cc[block][<?php echo $ns; ?>][lang]"
 									value="<?php echo $v[ 'lang' ]; ?>"
@@ -204,13 +208,13 @@ class CC_Admin_UI {
 							<div class="cc-code">
 								<p>
 									<label for="code-<?php echo $ns; ?>"><?php _e( 'Code', 'wp-cc' ); ?></label><br />
-									<textarea rows="10" class="large-text wp-cc-codearea" id="code-<?php echo $ns; ?>" name="wp-cc[block][<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
+									<textarea rows="10" class="large-text wp-cc-codearea cc-data" id="code-<?php echo $ns; ?>" name="wp-cc[block][<?php echo $ns; ?>][code]"><?php echo $v[ 'code' ]; ?></textarea
 								</p>
 							</div>
 						</div>
 					</div>
 					<div class="cc-submit">
-						<input type="button" class="wp-cc-single-update button-secondary" value="<?php _e( 'Update', 'wp-cc' ); ?>" />
+						<input type="button" class="wp-cc-single-update button-secondary" value="<?php _e( 'Update', 'wp-cc' ); ?>" data-ns="<?php echo $ns; ?>" data-pid="<?php echo get_the_ID(); ?>" />
 					</div>
 				</div>
 			</div>
@@ -240,12 +244,51 @@ class CC_Admin_UI {
 
 		$blocks = array();
 		foreach ( $_POST[ 'wp-cc' ][ 'block' ] as $b ) {
-			if ( empty( $b[ 'name' ] ) || empty( $b[ 'code' ] ) )
+			if ( empty( $b[ 'code' ] ) )
 				continue;
 			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => $b[ 'lang' ] );
 		}
 		$this->plugin->set_code_blocks( $post_id, $blocks );
 		$this->plugin->update_codeblocks();
+	}
+
+	/**
+	 * update a single block via ajax. prints a json-string
+	 *
+	 * @access public
+	 * @since 0.1
+	 * @return void
+	 */
+	public function update_single() {
+
+		if ( ! defined( 'DOING_AJAX' )  || ! DOING_AJAX )
+			return;
+
+		if ( ! wp_verify_nonce( $_POST[ 'nonce' ], 'wp_cc_nonce' ) )
+			exit;
+
+		$return = array(
+			'deleted' => FALSE,
+			'updated' => FALSE
+		);
+		$id = ( int ) $_POST[ 'pid' ];
+		$name = $_POST[ 'name' ];
+		$existing = $this->plugin->get_code( $id );
+
+		$block = array();
+		$block[ 'code' ] = $_POST[ 'code' ];
+		$block[ 'lang' ] = $_POST[ 'lang' ];
+
+		$this->plugin->set_single_block( $id, $name, $block );
+		$this->plugin->update_codeblocks();
+		$new = $this->plugin->get_code( $id );
+		if ( ! isset( $new[ $name ] ) )
+			$return[ 'deleted' ] = TRUE;
+		elseif ( ! isset( $existing[ $name ] ) || $new[ $name ] !== $existing[ $name ] )
+			$return[ 'updated' ] = TRUE;
+
+		echo json_encode( $return );
+		exit;
 	}
 
 	/**
