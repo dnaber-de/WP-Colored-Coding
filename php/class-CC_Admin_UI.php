@@ -43,7 +43,7 @@ class CC_Admin_UI {
 		add_action( 'admin_init', array( $this, 'settings' ) );
 		add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'update_codeblocks' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 	}
 
 	/**
@@ -53,14 +53,23 @@ class CC_Admin_UI {
 	 * @since 0.1
 	 * @return void
 	 */
-	public function admin_styles() {
+	public function admin_scripts() {
 		$plugin = $this->plugin;
-		wp_enqueue_style(
-			'wp-cc-admin',
-			$plugin::$uri . '/css/admin.css',
-			array()
+
+		wp_enqueue_script(
+			'wp-cc-admin-script',
+			$plugin::$uri . '/js/admin.js',
+			array( 'jquery' ),
+			$plugin::VERSION,
+			FALSE
 		);
 
+		wp_enqueue_style(
+			'wp-cc-admin-style',
+			$plugin::$uri . '/css/admin.css',
+			array(),
+			$plugin::VERSION
+		);
 	}
 
 	/**
@@ -172,13 +181,13 @@ class CC_Admin_UI {
 						<div>
 							<div class="cc-code-buttons">
 								<p>
-									<input type="button" class="wp-cc-insert-tab" title="<?php esc_attr_e( 'Insert Tab', 'wp-cc' ); ?>" value="⇥" />
+									<input type="button" class="wp-cc-insert-tab" data-target-id="code-<?php echo $ns; ?>" title="<?php esc_attr_e( 'Insert Tab', 'wp-cc' ); ?>" value="⇥" />
 								</p>
 							</div>
 							<div class="cc-code">
 								<p>
 									<label for="code-<?php echo $ns; ?>"><?php _e( 'Code', 'wp-cc' ); ?></label><br />
-									<textarea rows="10" class="large-text" id="code-<?php echo $ns; ?>" name="wp-cc[<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
+									<textarea rows="10" class="large-text wp-cc-codearea" id="code-<?php echo $ns; ?>" name="wp-cc[<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
 								</p>
 							</div>
 						</div>
