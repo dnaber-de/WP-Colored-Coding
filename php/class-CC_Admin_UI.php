@@ -106,8 +106,8 @@ class CC_Admin_UI {
 	public function code_metabox( $post ) {
 		$code = $this->plugin->get_code( $post->ID );
 		$code[ '' ] = array(); # append an empty section for a new codeblock
-		wp_nonce_field( __CLASS__, 'wp-cc-nonce' );
 		?>
+		<input type="hidden" name="wp-cc[nonce]" value="<?php echo wp_create_nonce( 'wp_cc_nonce' ); ?>" id="wp-cc-nonce" />
 		<div class="inside">
 			<p>Du nutzt Syntax-Highlighting. Aktuelles Theme: Gitub</p>
 			<ul>
@@ -115,7 +115,12 @@ class CC_Admin_UI {
 				$this->single_codeblock( array_merge( $block, array( 'name' => $name ) ) );
 			}?>
 			</ul>
-			<p><input class="button-secondary" type="button" id="wp-cc-new-block" value="<?php _e( 'Give me the next block', 'wp-cc' ); ?>" /></p>
+			<p><input
+				class="button-secondary"
+				type="button"
+				id="wp-cc-new-block"
+				value="<?php _e( 'Give me the next block', 'wp-cc' ); ?>"
+			/></p>
 		</div>
 		<?php
 	}
@@ -126,12 +131,11 @@ class CC_Admin_UI {
 	 * @access public
 	 * @since 0.1
 	 * @param array $values (Optional)
-	 * @param bool $exit (Optional)
 	 * @return string|void (Void on AJAX-Requests)
 	 */
-	public function single_codeblock( $values = array(), $exit = FALSE ) {
+	public function single_codeblock( $values = array() ) {
 
-		$ajax = defined( 'DOING_AJAX' ) && DOING_AJAX && $exit;
+		$ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 		$defaults = array(
 			'name' => '',
 			'code' => '',
@@ -142,7 +146,7 @@ class CC_Admin_UI {
 		$langs = $this->plugin->get_langs();
 		asort( $langs );
 
-		if ( $ajax && ! wp_verify_nonce( $_POST[ 'wp-cc-nonce' ], __CLASS__ ) )
+		if ( $ajax && ! wp_verify_nonce( $_POST[ 'wp-cc-nonce' ], 'wp_cc_nonce' ) )
 			exit;
 
 		?>
@@ -156,7 +160,7 @@ class CC_Admin_UI {
 								<input
 									id="name-<?php echo $ns; ?>"
 									type="text"
-									name="wp-cc[<?php echo $ns; ?>][name]"
+									name="wp-cc[block][<?php echo $ns; ?>][name]"
 									value="<?php echo $v[ 'name' ]; ?>"
 									placeholder="<?php esc_attr_e( 'Use within the Shortcode [cc name=""]', 'wp-cc' ); ?>"
 								/>
@@ -166,7 +170,7 @@ class CC_Admin_UI {
 								<input
 									id="lang-<?php echo $ns; ?>"
 									type="text"
-									name="wp-cc[<?php echo $ns; ?>][lang]"
+									name="wp-cc[block][<?php echo $ns; ?>][lang]"
 									value="<?php echo $v[ 'lang' ]; ?>"
 									placeholder="<?php esc_attr_e( 'Leave empty for no syntax highlighting', 'wp-cc' ); ?>"
 									list="lang-list-<?php echo $ns; ?>"
@@ -187,7 +191,7 @@ class CC_Admin_UI {
 							<div class="cc-code">
 								<p>
 									<label for="code-<?php echo $ns; ?>"><?php _e( 'Code', 'wp-cc' ); ?></label><br />
-									<textarea rows="10" class="large-text wp-cc-codearea" id="code-<?php echo $ns; ?>" name="wp-cc[<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
+									<textarea rows="10" class="large-text wp-cc-codearea" id="code-<?php echo $ns; ?>" name="wp-cc[block][<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
 								</p>
 							</div>
 						</div>
@@ -216,13 +220,13 @@ class CC_Admin_UI {
 
 		if (
 			( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-		||  (  ! wp_verify_nonce( $_POST[ 'wp-cc-nonce' ], __CLASS__ ) )
+		||  (  ! wp_verify_nonce( $_POST['wp-cc'][ 'nonce' ], 'wp_cc_nonce' ) )
 		||  ( isset( $_POST[ 'post_type' ] ) && ! current_user_can( 'edit_' . $_POST[ 'post_type' ], $post_id ) )
 		)
 			exit( 'Busted' );
 
 		$blocks = array();
-		foreach ( $_POST[ 'wp-cc' ] as $b ) {
+		foreach ( $_POST[ 'wp-cc' ][ 'block' ] as $b ) {
 			if ( empty( $b[ 'name' ] ) || empty( $b[ 'code' ] ) )
 				continue;
 			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => $b[ 'lang' ] );
