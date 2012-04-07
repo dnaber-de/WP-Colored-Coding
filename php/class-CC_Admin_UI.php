@@ -43,6 +43,23 @@ class CC_Admin_UI {
 		add_action( 'admin_init', array( $this, 'settings' ) );
 		add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'update_codeblocks' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
+	}
+
+	/**
+	 * admin styles
+	 *
+	 * @access public
+	 * @since 0.1
+	 * @return void
+	 */
+	public function admin_styles() {
+		$plugin = $this->plugin;
+		wp_enqueue_style(
+			'wp-cc-admin',
+			$plugin::$uri . '/css/admin.css',
+			array()
+		);
 
 	}
 
@@ -121,21 +138,25 @@ class CC_Admin_UI {
 		<li class="wp-cc-single-block">
 			<div class="postbox">
 				<div class="inside">
-					<div>
-						<p>
-							<label for="name-<?php echo $ns; ?>"><?php _e( 'Name', 'wp-cc' ); ?></label><br />
-							<input id="name-<?php echo $ns; ?>" type="text" name="wp-cc[<?php echo $ns; ?>][name]" value="<?php echo $v[ 'name' ]; ?>">
-						</p>
-						<p>
-							<label for="lang-<?php echo $ns; ?>"><?php _e( 'Language', 'wp-cc' ); ?></label><br />
-							<input id="lang-<?php echo $ns; ?>" type="text" name="wp-cc[<?php echo $ns; ?>][lang]" value="<?php echo $v[ 'lang' ]; ?>">
-						</p>
+					<div class="cc-input">
+						<div>
+							<p>
+								<label class="alternate" for="name-<?php echo $ns; ?>"><?php _e( 'Name', 'wp-cc' ); ?></label>
+								<input id="name-<?php echo $ns; ?>" type="text" name="wp-cc[<?php echo $ns; ?>][name]" value="<?php echo $v[ 'name' ]; ?>">
+							</p>
+							<p>
+								<label for="lang-<?php echo $ns; ?>"><?php _e( 'Language', 'wp-cc' ); ?></label>
+								<input id="lang-<?php echo $ns; ?>" type="text" name="wp-cc[<?php echo $ns; ?>][lang]" value="<?php echo $v[ 'lang' ]; ?>">
+							</p>
+						</div>
+						<div>
+							<p>
+								<label for="code-<?php echo $ns; ?>"><?php _e( 'Code', 'wp-cc' ); ?></label><br />
+								<textarea rows="10" class="large-text" id="code-<?php echo $ns; ?>" name="wp-cc[<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
+							</p>
+						</div>
 					</div>
-					<div>
-						<label for="code-<?php echo $ns; ?>"><?php _e( 'Code', 'wp-cc' ); ?></label><br />
-						<textarea id="code-<?php echo $ns; ?>" name="wp-cc[<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
-					</div>
-					<div>
+					<div class="cc-submit">
 						<input type="button" class="wp-cc-single-update button-secondary" value="<?php _e( 'Update', 'wp-cc' ); ?>" />
 					</div>
 				</div>
