@@ -8,12 +8,21 @@
 	vertical-align: top;
 }
 .cc-input > div:first-child {
-	width: 25%;
+	width: 23%;
 	min-width: 250px;
+	padding-right: 2%;
 }
 .cc-input input {
 	width: 100%;
 }
 .cc-submit {
 	text-align: right;
+}
+.cc-code {
+	margin-left: 50px;
+}
+.cc-code-buttons {
+	width: 40px;
+	float: left;
+	padding-top: 1.5em;
 }

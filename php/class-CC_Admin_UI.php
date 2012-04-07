@@ -130,6 +130,8 @@ class CC_Admin_UI {
 		);
 		$ns = uniqid( '' );
 		$v = wp_parse_args( $values, $defaults );
+		$langs = $this->plugin->get_langs();
+		asort( $langs );
 
 		if ( $ajax && ! wp_verify_nonce( $_POST[ 'wp-cc-nonce' ], __CLASS__ ) )
 			exit;
@@ -141,19 +143,44 @@ class CC_Admin_UI {
 					<div class="cc-input">
 						<div>
 							<p>
-								<label class="alternate" for="name-<?php echo $ns; ?>"><?php _e( 'Name', 'wp-cc' ); ?></label>
-								<input id="name-<?php echo $ns; ?>" type="text" name="wp-cc[<?php echo $ns; ?>][name]" value="<?php echo $v[ 'name' ]; ?>">
+								<label for="name-<?php echo $ns; ?>"><?php _e( 'Name', 'wp-cc' ); ?></label>
+								<input
+									id="name-<?php echo $ns; ?>"
+									type="text"
+									name="wp-cc[<?php echo $ns; ?>][name]"
+									value="<?php echo $v[ 'name' ]; ?>"
+									placeholder="<?php esc_attr_e( 'Use within the Shortcode [cc name=""]', 'wp-cc' ); ?>"
+								/>
 							</p>
 							<p>
 								<label for="lang-<?php echo $ns; ?>"><?php _e( 'Language', 'wp-cc' ); ?></label>
-								<input id="lang-<?php echo $ns; ?>" type="text" name="wp-cc[<?php echo $ns; ?>][lang]" value="<?php echo $v[ 'lang' ]; ?>">
+								<input
+									id="lang-<?php echo $ns; ?>"
+									type="text"
+									name="wp-cc[<?php echo $ns; ?>][lang]"
+									value="<?php echo $v[ 'lang' ]; ?>"
+									placeholder="<?php esc_attr_e( 'Leave empty for no syntax highlighting', 'wp-cc' ); ?>"
+									list="lang-list-<?php echo $ns; ?>"
+								/>
+								<datalist id="lang-list-<?php echo $ns; ?>">
+									<?php foreach ( $langs as $value => $name ) : ?>
+										<option value="<?php echo $value; ?>"><?php echo $name; ?></option>
+									<?php endforeach; ?>
+								</datalist>
 							</p>
 						</div>
 						<div>
-							<p>
-								<label for="code-<?php echo $ns; ?>"><?php _e( 'Code', 'wp-cc' ); ?></label><br />
-								<textarea rows="10" class="large-text" id="code-<?php echo $ns; ?>" name="wp-cc[<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
-							</p>
+							<div class="cc-code-buttons">
+								<p>
+									<input type="button" class="wp-cc-insert-tab" title="<?php esc_attr_e( 'Insert Tab', 'wp-cc' ); ?>" value="⇥" />
+								</p>
+							</div>
+							<div class="cc-code">
+								<p>
+									<label for="code-<?php echo $ns; ?>"><?php _e( 'Code', 'wp-cc' ); ?></label><br />
+									<textarea rows="10" class="large-text" id="code-<?php echo $ns; ?>" name="wp-cc[<?php echo $ns; ?>][code]'"><?php echo $v[ 'code' ]; ?></textarea>
+								</p>
+							</div>
 						</div>
 					</div>
 					<div class="cc-submit">
