@@ -44,6 +44,9 @@ class CC_Admin_UI {
 		add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'update_codeblocks' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+
+		# ajax handles
+		add_action( 'wp_ajax_wp_cc_new_block', array( $this, 'single_codeblock' ), 10, 2 );
 	}
 
 	/**
@@ -69,6 +72,16 @@ class CC_Admin_UI {
 			$plugin::$uri . '/css/admin.css',
 			array(),
 			$plugin::VERSION
+		);
+
+		wp_localize_script(
+			'wp-cc-admin-script',
+			'wpCcGlobals',
+			array(
+				'AjaxUrl'        => admin_url( 'admin-ajax.php' ),
+				'NonceFieldId'   => 'wp-cc-nonce',
+				'NewBlockAction' => 'wp_cc_new_block'
+			)
 		);
 	}
 
@@ -110,7 +123,7 @@ class CC_Admin_UI {
 		<input type="hidden" name="wp-cc[nonce]" value="<?php echo wp_create_nonce( 'wp_cc_nonce' ); ?>" id="wp-cc-nonce" />
 		<div class="inside">
 			<p>Du nutzt Syntax-Highlighting. Aktuelles Theme: Gitub</p>
-			<ul>
+			<ul id="wp-cc-code-list">
 			<?php foreach ( $code as $name => $block ) {
 				$this->single_codeblock( array_merge( $block, array( 'name' => $name ) ) );
 			}?>
@@ -126,7 +139,7 @@ class CC_Admin_UI {
 	}
 
 	/**
-	 * single codeblock editing markup
+	 * single codeblock markup
 	 *
 	 * @access public
 	 * @since 0.1
@@ -146,7 +159,7 @@ class CC_Admin_UI {
 		$langs = $this->plugin->get_langs();
 		asort( $langs );
 
-		if ( $ajax && ! wp_verify_nonce( $_POST[ 'wp-cc-nonce' ], 'wp_cc_nonce' ) )
+		if ( $ajax && ! wp_verify_nonce( $_POST[ 'nonce' ], 'wp_cc_nonce' ) )
 			exit;
 
 		?>

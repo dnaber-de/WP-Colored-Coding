@@ -100,4 +100,31 @@
 		}
 	);
 
+	/**
+	 * ajax stuff
+	 */
+	$( document ).ready(
+		function() {
+			// append a new codeblock section
+			$( '#wp-cc-new-block' ).on(
+				'click',
+				function() {
+					$.post(
+						wpCcGlobals.AjaxUrl,
+						{
+							nonce  : $( '#' + wpCcGlobals.NonceFieldId ).attr( 'value' ),
+							action : wpCcGlobals.NewBlockAction
+						},
+						function( data ) {
+							data = $( data );
+							data.hide();
+							$( '#wp-cc-code-list' ).append( data );
+							data.slideDown();
+						}
+					);
+				}
+			);
+		}
+	);
+
 } )(jQuery);
