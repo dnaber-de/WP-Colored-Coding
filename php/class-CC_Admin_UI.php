@@ -123,6 +123,7 @@ class CC_Admin_UI {
 		$code[ '' ] = array(); # append an empty section for a new codeblock
 		?>
 		<input type="hidden" name="wp-cc[nonce]" value="<?php echo wp_create_nonce( 'wp_cc_nonce' ); ?>" id="wp-cc-nonce" />
+		<input type="hidden" name="wp-cc[pid]" value="<?php echo get_the_ID(); ?>" id="wp-cc-pid" />
 		<div class="inside">
 			<p>Du nutzt Syntax-Highlighting. Aktuelles Theme: Gitub</p>
 			<ul id="wp-cc-code-list">
@@ -214,7 +215,7 @@ class CC_Admin_UI {
 						</div>
 					</div>
 					<div class="cc-submit">
-						<input type="button" class="wp-cc-single-update button-secondary" value="<?php _e( 'Update', 'wp-cc' ); ?>" data-ns="<?php echo $ns; ?>" data-pid="<?php echo get_the_ID(); ?>" />
+						<input type="button" class="wp-cc-single-update button-secondary" value="<?php _e( 'Update', 'wp-cc' ); ?>" data-ns="<?php echo $ns; ?>" />
 					</div>
 				</div>
 			</div>
@@ -240,7 +241,7 @@ class CC_Admin_UI {
 		||  (  ! wp_verify_nonce( $_POST['wp-cc'][ 'nonce' ], 'wp_cc_nonce' ) )
 		||  ( isset( $_POST[ 'post_type' ] ) && ! current_user_can( 'edit_' . $_POST[ 'post_type' ], $post_id ) )
 		)
-			exit( 'Busted' );
+			return;
 
 		$blocks = array();
 		foreach ( $_POST[ 'wp-cc' ][ 'block' ] as $b ) {

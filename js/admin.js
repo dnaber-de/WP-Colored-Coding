@@ -130,7 +130,7 @@
 				'click',
 				function() {
 					var ns = $( this ).attr( 'data-ns' );
-					var pid = $( this ).attr( 'data-pid' );
+					var pid = $( '#wp-cc-pid' ).attr( 'value' );
 					var fields = $( '#' + ns + ' .cc-data' );
 					var data = {
 						nonce  : $( '#' + wpCcGlobals.NonceFieldId ).attr( 'value' ),
