@@ -126,8 +126,9 @@
 			);
 
 			// update (and delete) a single codeblock
-			$( '.wp-cc-single-update' ).on(
+			$( document ).on(
 				'click',
+				'.wp-cc-single-update',
 				function() {
 					var ns = $( this ).attr( 'data-ns' );
 					var pid = $( '#wp-cc-pid' ).attr( 'value' );
