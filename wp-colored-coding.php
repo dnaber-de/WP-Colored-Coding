@@ -375,11 +375,11 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 */
 		public function get_name( $post_id, $new_count = NULL ) {
 
-			$blocks = isset( $this->codeblocks[ $post_id ] ) ? $this->codeblocks[ $post_id ] : array();
-			$next = ( NULL === $new_count ) ? count( $blocks ) + 1 : $new_count + 1;
+			$code = $this->get_code( $post_id );
+			$next = ( NULL === $new_count ) ? count( $code ) + 1 : $new_count + 1;
 			$name = 'code-' . ( string ) $next;
-			if ( array_key_exists( $name, $blocks ) ) {
-				while ( array_key_exists( $name, $blocks ) ) {
+			if ( array_key_exists( $name, $code ) ) {
+				while ( array_key_exists( $name, $code ) ) {
 					$name .= '-1';
 				}
 			}
