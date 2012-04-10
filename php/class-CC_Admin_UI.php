@@ -120,6 +120,7 @@ class CC_Admin_UI {
 	 */
 	public function code_metabox( $post ) {
 		$code = $this->plugin->get_code( $post->ID );
+		var_dump( $code );
 		$code[ '' ] = array(); # append an empty section for a new codeblock
 		?>
 		<input type="hidden" name="wp-cc[nonce]" value="<?php echo wp_create_nonce( 'wp_cc_nonce' ); ?>" id="wp-cc-nonce" />
@@ -247,6 +248,8 @@ class CC_Admin_UI {
 		foreach ( $_POST[ 'wp-cc' ][ 'block' ] as $b ) {
 			if ( empty( $b[ 'code' ] ) )
 				continue;
+			if ( empty( $b[ 'name' ] ) )
+				$b[ 'name' ] = $this->plugin->get_name( $post_id, count( $blocks ) );
 			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => $b[ 'lang' ] );
 		}
 		$this->plugin->set_code_blocks( $post_id, $blocks );
@@ -273,7 +276,7 @@ class CC_Admin_UI {
 			'updated' => FALSE
 		);
 		$id = ( int ) $_POST[ 'pid' ];
-		$name = $_POST[ 'name' ];
+		$name = empty( $_POST[ 'name' ] ) ? $this->plugin->get_name( $id ) : $_POST[ 'name' ];
 		$existing = $this->plugin->get_code( $id );
 
 		$block = array();
@@ -287,6 +290,9 @@ class CC_Admin_UI {
 			$return[ 'deleted' ] = TRUE;
 		elseif ( ! isset( $existing[ $name ] ) || $new[ $name ] !== $existing[ $name ] )
 			$return[ 'updated' ] = TRUE;
+
+		if ( $name !== $_POST[ 'name' ] )
+			$return[ 'name' ] = $name;
 
 		echo json_encode( $return );
 		exit;

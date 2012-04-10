@@ -148,6 +148,10 @@
 						wpCcGlobals.AjaxUrl,
 						data,
 						function( data ) {
+							if ( data.name ) {
+								console.log( data.name );
+								$( '#name-' + ns ).attr( 'value', data.name );
+							}
 							if ( data.deleted ) {
 								$( '#' + ns ).slideUp(
 									'slow',
