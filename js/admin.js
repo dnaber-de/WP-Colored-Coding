@@ -141,7 +141,10 @@
 					fields.each(
 						function( ) {
 							var name = $( this ).attr( 'name' ).match( /\[(\w+)\]$/ );
-							data[ name[ 1 ] ] = $( this ).attr( 'value' );
+							if ( 'text' == $( this ).attr( 'type' ) || 'TEXTAREA' == this.tagName )
+								data[ name[ 1 ] ] = $( this ).attr( 'value' );
+							if ( 'checkbox' == $( this ).attr( 'type' ) && 'checked' == $( this ).attr( 'checked' ) )
+								data[ name[ 1 ] ] = $( this ).attr( 'value' );
 						}
 					);
 					$.post(
@@ -149,7 +152,6 @@
 						data,
 						function( data ) {
 							if ( data.name ) {
-								console.log( data.name );
 								$( '#name-' + ns ).attr( 'value', data.name );
 							}
 							if ( data.deleted ) {

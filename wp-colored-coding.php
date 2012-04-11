@@ -287,7 +287,10 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			if ( '1' === $this->options[ 'use_syntax_highlighting' ] )
 				wp_enqueue_script( 'rainbow' );
-			return '<pre><code data-language="' . $code[ 'lang' ] . '">' . esc_attr( $code[ 'code' ] ) . '</code></pre>';
+			if ( empty( $code[ 'raw' ] ) )
+				return '<pre><code data-language="' . $code[ 'lang' ] . '">' . esc_attr( $code[ 'code' ] ) . '</code></pre>';
+			else
+				return $code[ 'code' ];
 		}
 
 		/**

@@ -199,6 +199,17 @@ class CC_Admin_UI {
 									<?php endforeach; ?>
 								</datalist>
 							</p>
+							<p>
+								<input
+									id="raw-<?php echo $ns; ?>"
+									class="cc-data"
+									type="checkbox"
+									name="wp-cc[block][<?php echo $ns; ?>][raw]"
+									value="1"
+									<?php checked( $v[ 'raw' ], TRUE ); ?>
+								/>
+								<label for="raw-<?php echo $ns; ?>"><?php _e( 'Raw HTML Code (Note! This will print the plain Code without any escaping filters)', 'wp-cc' ); ?></label>
+							</p>
 						</div>
 						<div>
 							<div class="cc-code-buttons">
@@ -249,7 +260,8 @@ class CC_Admin_UI {
 				continue;
 			if ( empty( $b[ 'name' ] ) )
 				$b[ 'name' ] = $this->plugin->get_name( $post_id, count( $blocks ) );
-			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => $b[ 'lang' ] );
+			$raw = isset( $b[ 'raw' ] ) && '1' === $b[ 'raw' ] ? TRUE : FALSE;
+			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => $b[ 'lang' ], 'raw' => $raw );
 		}
 		$this->plugin->set_code_blocks( $post_id, $blocks );
 		$this->plugin->update_codeblocks();
@@ -281,6 +293,7 @@ class CC_Admin_UI {
 		$block = array();
 		$block[ 'code' ] = $_POST[ 'code' ];
 		$block[ 'lang' ] = $_POST[ 'lang' ];
+		$block[ 'raw' ]  = isset( $_POST[ 'raw' ] ) && '1' === $_POST[ 'raw' ] ? TRUE : FALSE;
 
 		$this->plugin->set_single_block( $id, $name, $block );
 		$this->plugin->update_codeblocks();
