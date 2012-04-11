@@ -120,13 +120,12 @@ class CC_Admin_UI {
 	 */
 	public function code_metabox( $post ) {
 		$code = $this->plugin->get_code( $post->ID );
-		var_dump( $code );
 		$code[ '' ] = array(); # append an empty section for a new codeblock
 		?>
 		<input type="hidden" name="wp-cc[nonce]" value="<?php echo wp_create_nonce( 'wp_cc_nonce' ); ?>" id="wp-cc-nonce" />
 		<input type="hidden" name="wp-cc[pid]" value="<?php echo get_the_ID(); ?>" id="wp-cc-pid" />
 		<div class="inside">
-			<p>Du nutzt Syntax-Highlighting. Aktuelles Theme: Gitub</p>
+			<p><?php _e( 'To delete a codeblock just leave the textarea(code) empty and update.', 'wp-cc' ); ?></p>
 			<ul id="wp-cc-code-list">
 			<?php foreach ( $code as $name => $block ) {
 				$this->single_codeblock( array_merge( $block, array( 'name' => $name ) ) );
