@@ -185,4 +185,110 @@
 		}
 	);
 
+	ccDialog  = {
+
+		/**
+		 * the formular
+		 *
+		 * @var Object
+		 */
+		dialog : null,
+
+		/**
+		 * start the magic for the dialog box
+		 *
+		 * @return void
+		 */
+		init : function() {
+
+			// any tinymce here?
+			if ( 'undefined' == typeof( edCanvas ) )
+				return;
+			//tinyMCEPopup is still undefined at this point
+
+			ccDialog.dialog = $( '#wp-cc-mce-popup' );
+			ccDialog.dialog.submit( ccDialog.submit );
+			// close the dialog on 'ESC'
+			$( document ).keyup(
+				function( e ) {
+					if ( 27 == e.keyCode ) {
+						e.preventDefault();
+						ccDialog.close();
+					}
+				}
+			);
+
+		},
+
+		/**
+		 * build the shortcode and append id to the cursor-possition
+		 *
+		 * @param e Event
+		 * @return false
+		 */
+		submit : function( e ) {
+
+			e.preventDefault();
+			var name = null;
+			name = ccDialog.dialog.find( 'select:first-child' ).val();
+
+			//no values at all?
+			if ( ! name ) {
+				ccDialog.close();
+				return false;
+			}
+
+			//the shortcode
+			var sc = '[cc name="' + name + '"]';
+
+			//TinyMCE Mode (richt text editor)
+			if ( ccDialog.isMCE() ) {
+				e = tinyMCEPopup.editor;
+				tinyMCEPopup.restoreSelection();
+				e.execCommand( 'mceInsertContent', false, sc );
+			}
+
+			ccDialog.close();
+			return false;
+
+		},
+
+		/**
+		 * viewing the richtext-mode of tinymce?
+		 *
+		 * @return bool
+		 */
+		isMCE : function() {
+
+			if ( 'undefined' !== typeof( tinyMCEPopup )
+			  && 'undefined' !== typeof( tinyMCEPopup.editor )
+			  && ! tinyMCEPopup.editor.isHidden()
+			) {
+				return true;
+			}
+			return false;
+		},
+
+		/**
+		 * close the dialog window
+		 *
+		 * @param e Event (optional)
+		 * @return false
+		 */
+		close : function( e ) {
+
+			if ( e && 'function' == typeof( e.preventDefault ) )
+				e.preventDefault();
+
+			ccDialog.dialog.wpdialog( 'close' );
+			return false;
+		}
+	};
+	$( document ).ready( ccDialog.init );
+
 } )(jQuery);
+
+
+
+
+

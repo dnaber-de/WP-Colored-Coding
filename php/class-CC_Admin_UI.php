@@ -40,14 +40,27 @@ class CC_Admin_UI {
 		$this->plugin = $plugin;
 		$this->settings_section = $this->plugin->option_key . '_section';
 
-		add_action( 'admin_init', array( $this, 'settings' ) );
-		add_action( 'add_meta_boxes', array( $this, 'meta_boxes' ) );
-		add_action( 'save_post', array( $this, 'update_codeblocks' ) );
+		add_action( 'admin_init',            array( $this, 'settings' ) );
+		add_action( 'add_meta_boxes',        array( $this, 'meta_boxes' ) );
+		add_action( 'save_post',             array( $this, 'update_codeblocks' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
 		# ajax handles
-		add_action( 'wp_ajax_wp_cc_new_block', array( $this, 'single_codeblock' ) );
+		add_action( 'wp_ajax_wp_cc_new_block',    array( $this, 'single_codeblock' ) );
 		add_action( 'wp_ajax_wp_cc_update_block', array( $this, 'update_single' ) );
+
+		# tinymce dialog
+
+		if (
+			(    current_user_can( 'edit_posts' )
+			  || current_user_can( 'edit_pages' )
+			)
+			&& 'true' == get_user_option( 'rich_editing' )
+		) {
+			add_action( 'admin_footer',            array( $this, 'mce_dialog' ) );
+			add_filter( 'mce_external_plugins', array( $this, 'register_mce_plugin' ) );
+			add_filter( 'mce_buttons',          array( $this, 'register_mce_button' ) );
+		}
 	}
 
 	/**
@@ -452,6 +465,85 @@ class CC_Admin_UI {
 		?>
 		<input type="checkbox" name="<?php echo $attr[ 'name' ]; ?>" id="<?php echo $attr[ 'id' ]; ?>" value="1" <?php checked( $current_value, '1' ); ?> />
 		<?php
+	}
+
+	/**
+	 * register tinymce plugin
+	 *
+	 * @access public
+	 * @since 0.1
+	 * @param array $mce_plugins
+	 * @return array
+	 */
+	public function register_mce_plugin( $mce_plugins ) {
+
+		$plugin = $this->plugin;
+		$mce_plugins[ 'wpCCDialog' ] = $plugin::$uri . '/js/editor_plugin.js';
+
+		return $mce_plugins;
+	}
+
+	/**
+	 * register tinymce button
+	 *
+	 * @access public
+	 * @since 0.1
+	 * @param array $mce_buttons
+	 * @return array
+	 */
+	public function register_mce_button( $mce_buttons ) {
+
+		array_push( $mce_buttons, '|', 'wp_cc_open' );
+
+		return $mce_buttons;
+	}
+
+	/**
+	 * tiny mce popup markup
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function mce_dialog() {
+
+		?>
+		<div style="display:none">
+			<form id="wp-cc-mce-popup">
+				<div class="postbox">
+					<div class="inside">
+						<p><label for="cc-dialog-shortcodes"><?php _e( 'Available Codeblocks', 'wp-cc' ); ?></label></p>
+						<p><?php echo $this->get_code_dropdown( 'cc-dialog-shortcodes' ); ?></p>
+					</div>
+					<div class="inside">
+					<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Insert Shortcode', 'wp-cc' ); ?>" /></p>
+					</div>
+				</div>
+			</form>
+		</div>
+		<?php
+	}
+
+	/**
+	 * get all codeblocks as select-element
+	 *
+	 * @access protected
+	 * @since 0.1
+	 * @param string $id
+	 * @param string $name
+	 * @return string
+	 */
+	protected function get_code_dropdown( $name, $id = '' ) {
+
+		if ( empty( $id ) )
+			$id = $name;
+		$select = '<select name="' . $name . '" id="' . $id . '">';
+		$code = $this->plugin->get_code( get_the_ID() );
+		foreach ( $code as $name => $c ) {
+			$select .='<option value="' . $name . '">' . $name . '</option>';
+		}
+		$select .= '</select>';
+
+		return $select;
 	}
 
 }
