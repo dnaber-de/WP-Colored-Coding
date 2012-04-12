@@ -281,16 +281,23 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			if ( empty( $attr[ 'name' ] ) )
 				return '';
 
-			$id = get_the_ID();
-			$code = $this->get_code( $id );
-			$code = $code[ $attr[ 'name' ] ];
+			$id      = get_the_ID();
+			$code    = $this->get_code( $id );
+			$code    = $code[ $attr[ 'name' ] ];
+			$class   = empty( $code[ 'lang' ] ) ? 'wp-cc' : 'wp-cc wp-cc-' . $code[ 'lang' ];
+			$wrapper = '<div class="' . $class . '">%s</div>';
+			$wrapper = apply_filters( 'wp_cc_markup_wrapper', $wrapper, $code );
+			$print   = '';
 
-			if ( '1' === $this->options[ 'use_syntax_highlighting' ] )
+			if ( '1' === $this->options[ 'use_syntax_highlighting' ] && empty( $code[ 'raw' ] ) )
 				wp_enqueue_script( 'rainbow' );
+
 			if ( empty( $code[ 'raw' ] ) )
-				return '<pre><code data-language="' . $code[ 'lang' ] . '">' . esc_attr( $code[ 'code' ] ) . '</code></pre>';
+				$print = '<pre><code data-language="' . $code[ 'lang' ] . '">' . esc_attr( $code[ 'code' ] ) . '</code></pre>';
 			else
-				return $code[ 'code' ];
+				$print = $code[ 'code' ];
+
+			return sprintf( $wrapper, $print );
 		}
 
 		/**
