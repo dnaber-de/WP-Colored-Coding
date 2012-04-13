@@ -131,7 +131,7 @@
 				'.wp-cc-single-update',
 				function() {
 					var ns = $( this ).attr( 'data-ns' );
-					var pid = $( '#wp-cc-pid' ).attr( 'value' );
+					var pid = wpCcGlobals.PostID;
 					var fields = $( '#' + ns + ' .cc-data' );
 					var data = {
 						nonce  : $( '#' + wpCcGlobals.NonceFieldId ).attr( 'value' ),

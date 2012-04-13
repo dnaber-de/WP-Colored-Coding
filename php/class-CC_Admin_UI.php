@@ -139,7 +139,6 @@ class CC_Admin_UI {
 		$code[ '' ] = array(); # append an empty section for a new codeblock
 		?>
 		<input type="hidden" name="wp-cc[nonce]" value="<?php echo wp_create_nonce( 'wp_cc_nonce' ); ?>" id="wp-cc-nonce" />
-		<input type="hidden" name="wp-cc[pid]" value="<?php echo get_the_ID(); ?>" id="wp-cc-pid" />
 		<div class="inside">
 			<p><?php _e( 'To delete a codeblock just leave the textarea(code) empty and update.', 'wp-cc' ); ?></p>
 			<ul id="wp-cc-code-list">
