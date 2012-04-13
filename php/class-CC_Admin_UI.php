@@ -46,8 +46,9 @@ class CC_Admin_UI {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
 		# ajax handles
-		add_action( 'wp_ajax_wp_cc_new_block',    array( $this, 'single_codeblock' ) );
-		add_action( 'wp_ajax_wp_cc_update_block', array( $this, 'update_single' ) );
+		add_action( 'wp_ajax_wp_cc_new_block',            array( $this, 'single_codeblock' ) );
+		add_action( 'wp_ajax_wp_cc_update_block',         array( $this, 'update_single' ) );
+		add_action( 'wp_ajax_wp_cc_update_dialog_option', array( $this, 'get_code_dropdown' ) );
 
 		# tinymce dialog
 
@@ -92,10 +93,12 @@ class CC_Admin_UI {
 			'wp-cc-admin-script',
 			'wpCcGlobals',
 			array(
-				'AjaxUrl'        => admin_url( 'admin-ajax.php' ),
-				'NonceFieldId'   => 'wp-cc-nonce',
-				'UpdateBlock'    => 'wp_cc_update_block',
-				'NewBlockAction' => 'wp_cc_new_block'
+				'AjaxUrl'             => admin_url( 'admin-ajax.php' ),
+				'PostID'              => get_the_ID(),
+				'NonceFieldId'        => 'wp-cc-nonce',
+				'UpdateBlock'         => 'wp_cc_update_block',
+				'NewBlockAction'      => 'wp_cc_new_block',
+				'UpdateOptionsAction' => 'wp_cc_update_dialog_option'
 			)
 		);
 	}
@@ -512,10 +515,13 @@ class CC_Admin_UI {
 				<div class="postbox">
 					<div class="inside">
 						<p><label for="cc-dialog-shortcodes"><?php _e( 'Available Codeblocks', 'wp-cc' ); ?></label></p>
-						<p><?php echo $this->get_code_dropdown( 'cc-dialog-shortcodes' ); ?></p>
+						<p id="wp-cc-dialog-options"><?php echo $this->get_code_dropdown( 'wp-cc-dialog-shortcodes' ); ?></p>
 					</div>
 					<div class="inside">
-					<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Insert Shortcode', 'wp-cc' ); ?>" /></p>
+						<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Insert Shortcode', 'wp-cc' ); ?>" /></p>
+					</div>
+					<div>
+						<input type="hidden" name="wp-cc[dialog-nonce]" id="wp-cc-dialog-nonce" value="<?php echo wp_create_nonce( 'wp_cc_dialog_nonce' ); ?>" />
 					</div>
 				</div>
 			</form>
@@ -526,23 +532,43 @@ class CC_Admin_UI {
 	/**
 	 * get all codeblocks as select-element
 	 *
-	 * @access protected
+	 * @access public
 	 * @since 0.1
 	 * @param string $id
 	 * @param string $name
 	 * @return string
 	 */
-	protected function get_code_dropdown( $name, $id = '' ) {
+	public function get_code_dropdown( $name = '', $id = '' ) {
+
+		$ajax = FALSE;
+		$pid  = '';
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+			$ajax = TRUE;
+
+		if ( ! $ajax && empty( $name ) )
+			exit( 'Missing parameter: name in ' . __METHOD__ );
+
+		if ( $ajax ) {
+			$name = $_POST[ 'name' ];
+			$pid  = $_POST[ 'pid' ];
+		}
+		else
+			$pid = get_the_ID();
 
 		if ( empty( $id ) )
 			$id = $name;
+
 		$select = '<select name="' . $name . '" id="' . $id . '">';
-		$code = $this->plugin->get_code( get_the_ID() );
+		$code = $this->plugin->get_code( $pid );
 		foreach ( $code as $name => $c ) {
 			$select .='<option value="' . $name . '">' . $name . '</option>';
 		}
 		$select .= '</select>';
 
+		if ( $ajax ) {
+			echo $select;
+			exit;
+		}
 		return $select;
 	}
 

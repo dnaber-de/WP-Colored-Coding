@@ -208,6 +208,7 @@
 
 			ccDialog.dialog = $( '#wp-cc-mce-popup' );
 			ccDialog.dialog.submit( ccDialog.submit );
+			ccDialog.dialog._focus( ccDialog.updateOptions );
 			// close the dialog on 'ESC'
 			$( document ).keyup(
 				function( e ) {
@@ -254,6 +255,29 @@
 		},
 
 		/**
+		 * get the lates shortcodes from wp
+		 *
+		 * @param e Event (Optional)
+		 * @return void
+		 */
+		updateOptions : function( e ) {
+
+			$.post(
+				wpCcGlobals.AjaxUrl,
+				{
+					nonce    : $( '#wp-cc-dialog-nonce' ).val(),
+					action   : wpCcGlobals.UpdateOptionsAction,
+					name     : 'wp-cc-dialog-shortcodes',
+					pid      : wpCcGlobals.PostID
+				},
+				function( data ) {
+					//data is a html string
+					$( '#wp-cc-dialog-options' ).html( data );
+				}
+			);
+		},
+
+		/**
 		 * viewing the richtext-mode of tinymce?
 		 *
 		 * @return bool
@@ -287,8 +311,3 @@
 	$( document ).ready( ccDialog.init );
 
 } )(jQuery);
-
-
-
-
-
