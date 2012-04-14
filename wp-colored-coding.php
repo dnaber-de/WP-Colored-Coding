@@ -283,6 +283,8 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$id      = get_the_ID();
 			$code    = $this->get_code( $id );
+			if ( empty( $code[ $attr[ 'name' ] ] ) )
+				return'';
 			$code    = $code[ $attr[ 'name' ] ];
 			$class   = empty( $code[ 'lang' ] ) ? 'wp-cc' : 'wp-cc wp-cc-' . $code[ 'lang' ];
 			$wrapper = '<div class="' . $class . '">%s</div>';
