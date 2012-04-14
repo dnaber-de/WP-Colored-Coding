@@ -3,8 +3,8 @@
 /**
  * admin interface and settings handling
  *
- * @package WordPress
- * @subpackage WP Colored Coding
+ * @package WP Colored Coding
+ * @since 0.1
  */
 
 class CC_Admin_UI {
@@ -68,7 +68,6 @@ class CC_Admin_UI {
 	 * admin styles
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @return void
 	 */
 	public function admin_scripts() {
@@ -107,7 +106,6 @@ class CC_Admin_UI {
 	 * add the metaboxes
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @return void
 	 */
 	public function meta_boxes() {
@@ -130,7 +128,6 @@ class CC_Admin_UI {
 	 * the code editing metabox
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param WP_Post $post
 	 * @return void
 	 */
@@ -160,7 +157,6 @@ class CC_Admin_UI {
 	 * single codeblock markup
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param array $values (Optional)
 	 * @return string|void (Void on AJAX-Requests)
 	 */
@@ -256,7 +252,6 @@ class CC_Admin_UI {
 	 * update codeblocks
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param string $post_id
 	 * @return void
 	 */
@@ -286,7 +281,6 @@ class CC_Admin_UI {
 	 * update a single block via ajax. prints a json-string
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @return void
 	 */
 	public function update_single() {
@@ -329,7 +323,6 @@ class CC_Admin_UI {
 	 * register the settings api
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @return void
 	 */
 	public function settings() {
@@ -385,7 +378,6 @@ class CC_Admin_UI {
 	 * prints a description to the settings section
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @return void
 	 */
 	public function settings_description() {
@@ -400,7 +392,6 @@ class CC_Admin_UI {
 	 * validate the input
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param array $input (Array of all input fields registred to the settings section)
 	 * @return array
 	 */
@@ -433,7 +424,6 @@ class CC_Admin_UI {
 	 * prints a selectbox
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param array $attr
 	 * @return void
 	 */
@@ -456,7 +446,6 @@ class CC_Admin_UI {
 	 * prints a checkbox
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param array $attr
 	 * @return void
 	 */
@@ -473,7 +462,6 @@ class CC_Admin_UI {
 	 * register tinymce plugin
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param array $mce_plugins
 	 * @return array
 	 */
@@ -489,7 +477,6 @@ class CC_Admin_UI {
 	 * register tinymce button
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param array $mce_buttons
 	 * @return array
 	 */
@@ -532,7 +519,6 @@ class CC_Admin_UI {
 	 * get all codeblocks as select-element
 	 *
 	 * @access public
-	 * @since 0.1
 	 * @param string $id
 	 * @param string $name
 	 * @return string

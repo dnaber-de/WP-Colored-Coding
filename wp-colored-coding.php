@@ -136,6 +136,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 				return;
 
 			require_once self::$path . '/php/class-CC_Admin_UI.php';
+			require_once self::$path . '/php/class-Rainbow_API.php';
 			new self( TRUE );
 		}
 
@@ -151,7 +152,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			# set some defaults
 			$this->option_key = 'wp_cc_options';
-			$this->meta_key = '_wp_cc_codes';
+			$this->meta_key   = '_wp_cc_codes';
 
 			$this->load_options();
 
@@ -159,74 +160,13 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			$this->admin_ui = new CC_Admin_UI( $this );
 
 			/**
-			 * rainbow.js themes
+			 * rainbow.js themes and supported languages
+			 * @see Rainbow_API
 			 */
-			$themes = array(
+			$this->themes  = apply_filters( 'wp_cc_rainbow_themes', array() );
+			$this->langs   = apply_filters( 'wp_cc_rainbow_languages', array() );
+			$this->scripts = apply_filters( 'wp_cc_rainbow_scripts', array() );
 
-				'all-hallows-eve' =>
-					array(
-						'src'  => 'all-hallows-eve.css',
-						'name' => 'All hallows eve'
-					),
-
-				'blackboard' =>
-					array(
-						'src'  => 'blackboard.css',
-						'name' => 'Blackboard'
-					),
-
-				'espresso-libre' =>
-					array(
-						'src'  => 'espresso-libre.css',
-						'name' => 'Espresso libre'
-					),
-
-				'github' =>
-					array(
-						'src'  => 'github.css',
-						'name' => 'Github'
-					),
-
-				'tricolore' =>
-					array(
-						'src'  => 'tricolore.css',
-						'name' => 'Tricolore'
-					),
-
-				'twilight' =>
-					array(
-						'src'  => 'twilight.css',
-						'name' => 'Twilight'
-					),
-
-				'zenburnesque' =>
-					array(
-						'src'  => 'zenburnesque.css',
-						'name' => 'Zenburnesque'
-					)
-			);
-			$this->themes = apply_filters( 'cc_rainbow_themes', $themes );
-
-			$supportet_langs = array(
-				'c'          => 'C',
-				'php'        => 'PHP',
-				'css'        => 'CSS',
-				'html'       => 'HTML',
-				'ruby'       => 'Ruby',
-				'shell'      => 'Shell',
-				'phyton'     => 'Python',
-				'javascript' => 'Javascript'
-			);
-			$this->langs = apply_filters( 'cc_rainbow_languages', $supportet_langs );
-
-			$scripts = array(
-				'rainbow' =>
-					array(
-						'src' => 'rainbow.min.js',
-						'depts' => array(),
-					)
-			);
-			$this->scripts = apply_filters( 'cc_rainbow_scripts', $scripts );
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 			add_shortcode( 'cc', array( $this, 'cc_block_shortcode' ) );
 		}
@@ -252,17 +192,55 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			if ( ! empty( $this->options[ 'rainbow_theme' ] ) && '1' === $this->options[ 'use_syntax_highlighting' ] )
 				wp_enqueue_style( $this->options[ 'rainbow_theme' ] );
 
-
 			foreach ( $this->scripts as $handle => $s ) {
 				wp_register_script(
 					$handle,
-					self::$uri . '/js/' . $s[ 'src' ],
-					array(),
-					self::VERSION,
-					TRUE # in footer
+					$s[ 'src' ],
+					( empty( $s[ 'depts'] )      ? array()           : $s[ 'depts' ] ),
+					( empty( $s[ 'version'] )    ? self::VERSION     : $s[ 'version' ] ),
+					( isset( $s[ 'in_footer' ] ) ? $s[ 'in_footer' ] : TRUE )
 				);
 			}
 		}
+
+		/**
+		 * enqueues the scripts dependend on the scripts arguments
+		 *
+		 * @access protected
+		 * @since 0.1
+		 * @param string $lang
+		 * @return void
+		 */
+		protected function enqueue_scripts( $lang = '' ) {
+			global $wp_scripts;
+
+			# enqueue scripts in header
+			if ( 'wp_enqueue_scripts' === current_filter() ) {
+				foreach ( $this->scripts as $handle => $args ) {
+					if ( empty( $args[ 'in_footer' ] ) && ! in_array( $handle, $wp_scripts->queue ) )
+						wp_enqueue_script( $handle );
+				}
+				return;
+			}
+			if ( ! empty( $lang ) ) {
+				foreach ( $this->scripts as $handle => $args ) {
+					if ( $lang === $args[ 'lang' ] && ! in_array( $handle, $wp_scripts->queue ) ) {
+						wp_enqueue_scripts( $handle );
+						return; # all others should handle with the dependencies array
+					}
+				}
+			}
+			# still here, okay all other scripts without lang-attribute
+			foreach ( $this->scripts as $handle => $args ) {
+				if (
+				    ( empty( $args[ 'lang' ] ) || 'all' === $args[ 'lang' ] )
+				&&  ! in_array( $handle, $wp_scripts->queue )
+				) {
+					wp_enqueue_script( $handle );
+				}
+			}
+		}
+
 
 		/**
 		 * parses the shortcode
@@ -292,7 +270,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			$print   = '';
 
 			if ( '1' === $this->options[ 'use_syntax_highlighting' ] && empty( $code[ 'raw' ] ) )
-				wp_enqueue_script( 'rainbow' );
+				$this->enqueue_scripts( $code[ 'lang' ] );
 
 			if ( empty( $code[ 'raw' ] ) )
 				$print = '<pre><code data-language="' . $code[ 'lang' ] . '">' . esc_attr( $code[ 'code' ] ) . '</code></pre>';
@@ -445,7 +423,6 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$this->options = get_option( $this->option_key, self::$default_options );
 		}
-
 
 	} # end of class
 
