@@ -123,7 +123,7 @@ class Rainbow_API {
 			*/
 			'rainbow' =>
 				array(
-					'src'       => WP_Colored_Coding::$uri . '/js/rainbow.min.js',
+					'src'       => WP_Colored_Coding::$uri . '/js/rainbow/rainbow.min.js',
 					'depts'     => array(),
 					'in_footer' => TRUE,
 					'lang'      => 'all'
