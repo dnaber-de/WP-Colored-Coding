@@ -75,10 +75,10 @@ class CC_Admin_UI {
 		global $pagenow;
 		$plugin = $this->plugin;
 
-	wp_enqueue_script(
+		wp_enqueue_script(
 			'wp-cc-admin-script',
 			$plugin::$uri . '/js/admin.js',
-			array( 'jquery', 'jquery-color', 'sc-parser' ),
+			array( 'jquery', 'jquery-color' ),
 			$plugin::VERSION,
 			FALSE
 		);
@@ -164,6 +164,7 @@ class CC_Admin_UI {
 	 */
 	public function single_codeblock( $values = array() ) {
 
+		$options = $this->plugin->get_options();
 		$ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 		$defaults = array(
 			'name' => '',
@@ -212,17 +213,19 @@ class CC_Admin_UI {
 									<?php endforeach; ?>
 								</datalist>
 							</p>
-							<p>
-								<input
-									id="raw-<?php echo $ns; ?>"
-									class="cc-data"
-									type="checkbox"
-									name="wp-cc[block][<?php echo $ns; ?>][raw]"
-									value="1"
-									<?php checked( $v[ 'raw' ], TRUE ); ?>
-								/>
-								<label for="raw-<?php echo $ns; ?>"><?php _e( 'Raw HTML Code (Note! This will print the plain Code without any escaping filters)', 'wp-cc' ); ?></label>
-							</p>
+							<?php if ( '1' === $options[ 'enable_raw_output_option' ] ) : ?>
+								<p>
+									<input
+										id="raw-<?php echo $ns; ?>"
+										class="cc-data"
+										type="checkbox"
+										name="wp-cc[block][<?php echo $ns; ?>][raw]"
+										value="1"
+										<?php checked( $v[ 'raw' ], TRUE ); ?>
+									/>
+									<label for="raw-<?php echo $ns; ?>"><?php _e( 'Raw HTML Code (Note! This will print the plain Code without any escaping filters)', 'wp-cc' ); ?></label>
+								</p>
+							<?php endif; ?>
 						</div>
 						<div>
 							<div class="cc-code-buttons">
@@ -272,7 +275,8 @@ class CC_Admin_UI {
 				continue;
 			if ( empty( $b[ 'name' ] ) )
 				$b[ 'name' ] = $this->plugin->get_name( $post_id, count( $blocks ) );
-			$raw = isset( $b[ 'raw' ] ) && '1' === $b[ 'raw' ] ? TRUE : FALSE;
+			# post-meta api serializes (bool) TRUE to (string) '1' so we take the string for true/false data
+			$raw = isset( $b[ 'raw' ] ) && '1' === $b[ 'raw' ] ? '1' : '0';
 			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => $b[ 'lang' ], 'raw' => $raw );
 		}
 		$this->plugin->set_code_blocks( $post_id, $blocks );
@@ -304,7 +308,8 @@ class CC_Admin_UI {
 		$block = array();
 		$block[ 'code' ] = $_POST[ 'code' ];
 		$block[ 'lang' ] = $_POST[ 'lang' ];
-		$block[ 'raw' ]  = isset( $_POST[ 'raw' ] ) && '1' === $_POST[ 'raw' ] ? TRUE : FALSE;
+		# post-meta api serializes (bool) TRUE to (string) '1' so we take the string
+		$block[ 'raw' ]  = isset( $_POST[ 'raw' ] ) && '1' === $_POST[ 'raw' ] ? '1' : '0';
 
 		$this->plugin->set_single_block( $id, $name, $block );
 		$this->plugin->update_codeblocks();
@@ -374,6 +379,20 @@ class CC_Admin_UI {
 				'options'   => $theme_options
 			)
 		);
+
+		# option to print raw code on each code-block fromular
+		add_settings_field(
+			'cc_enable_raw_output_option',
+			__( 'Enable the raw output option?', 'wp-cc' ),
+			array( $this, 'opt_checkbox' ),
+			'writing',
+			$this->settings_section,
+			array(
+				'id'        => 'cc_enable_raw_output_option',
+				'label_for' => 'cc_enable_raw_output_option',
+				'name'      => $this->plugin->option_key . '[enable_raw_output_option]'
+			)
+		);
 	}
 
 	/**
@@ -400,16 +419,18 @@ class CC_Admin_UI {
 	public function validate_setting_input( $input ) {
 
 		$return = array(
-			'use_syntax_highlighting' => '',
-			'rainbow_theme'           => ''
+			'use_syntax_highlighting'  => '',
+			'rainbow_theme'            => '',
+			'enable_raw_output_option' => '',
 		);
 		# use highlighting?
-		if ( isset( $input[ 'use_syntax_highlighting' ] ) ) {
-			if ( '1' === $input[ 'use_syntax_highlighting' ] )
-				$return[ 'use_syntax_highlighting' ] = '1';
-			else
-				$return[ 'use_syntax_highlighting' ] = '0';
-		}
+		if ( isset( $input[ 'use_syntax_highlighting' ] )
+		  && '1' === $input[ 'use_syntax_highlighting' ]
+		)
+			$return[ 'use_syntax_highlighting' ] = '1';
+		else
+			$return[ 'use_syntax_highlighting' ] = '0';
+
 
 		# rainbow theme?
 		if ( isset( $input[ 'rainbow_theme' ] ) ) {
@@ -419,6 +440,14 @@ class CC_Admin_UI {
 			else
 				$return[ 'rainbow_theme' ] = '';
 		}
+
+		if ( isset( $input[ 'enable_raw_output_option' ] )
+		  && '1' === $input[ 'enable_raw_output_option' ]
+		  )
+			$return[ 'enable_raw_output_option' ] = '1';
+		else
+			$return[ 'enable_raw_output_option' ] = '0';
+
 		return $return;
 	}
 

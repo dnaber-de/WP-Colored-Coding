@@ -51,8 +51,9 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 * @var array
 		 */
 		protected static $default_options = array(
-			'rainbow_theme'           => 'all-hallows-eve',
-			'use_syntax_highlighting' => '1'
+			'rainbow_theme'            => 'all-hallows-eve',
+			'use_syntax_highlighting'  => '1',
+			'enable_raw_output_option' => '0'
 		);
 
 		/**
@@ -272,10 +273,13 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			if ( '1' === $this->options[ 'use_syntax_highlighting' ] && empty( $code[ 'raw' ] ) )
 				$this->enqueue_scripts( $code[ 'lang' ] );
 
-			if ( empty( $code[ 'raw' ] ) )
-				$print = '<pre><code data-language="' . $code[ 'lang' ] . '">' . esc_attr( $code[ 'code' ] ) . '</code></pre>';
-			else
+			if ( isset( $code[ 'raw' ] )
+			  && '1' === $code[ 'raw' ]
+			  && '1' === $this->options[ 'enable_raw_output_option' ]
+			)
 				$print = $code[ 'code' ];
+			else
+				$print = '<pre><code data-language="' . $code[ 'lang' ] . '">' . esc_attr( $code[ 'code' ] ) . '</code></pre>';
 
 			return sprintf( $wrapper, $print );
 		}
@@ -313,7 +317,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			if ( ! is_array( $blocks ) )
 				$blocks = array();
 			$this->codeblocks[ $post_id ] = $blocks;
-			;
+
 		}
 
 
