@@ -68,15 +68,17 @@ class CC_Admin_UI {
 	 * admin styles
 	 *
 	 * @access public
+	 * @global $pagenow
 	 * @return void
 	 */
 	public function admin_scripts() {
+		global $pagenow;
 		$plugin = $this->plugin;
 
-		wp_enqueue_script(
+	wp_enqueue_script(
 			'wp-cc-admin-script',
 			$plugin::$uri . '/js/admin.js',
-			array( 'jquery', 'jquery-color' ),
+			array( 'jquery', 'jquery-color', 'sc-parser' ),
 			$plugin::VERSION,
 			FALSE
 		);
@@ -93,7 +95,7 @@ class CC_Admin_UI {
 			'wpCcGlobals',
 			array(
 				'AjaxUrl'             => admin_url( 'admin-ajax.php' ),
-				'PostID'              => get_the_ID(),
+				'PostID'              => ( 'post.php' == $pagenow ) ? get_the_ID() : NULL,
 				'NonceFieldId'        => 'wp-cc-nonce',
 				'UpdateBlock'         => 'wp_cc_update_block',
 				'NewBlockAction'      => 'wp_cc_new_block',
