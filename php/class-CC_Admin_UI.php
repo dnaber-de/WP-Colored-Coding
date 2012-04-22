@@ -266,7 +266,8 @@ class CC_Admin_UI {
 	public function update_codeblocks( $post_id ) {
 
 		if (
-			( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+			! isset( $_POST[ 'wp-cc' ] )
+		||  ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		||  (  ! wp_verify_nonce( $_POST['wp-cc'][ 'nonce' ], 'wp_cc_nonce' ) )
 		||  ( isset( $_POST[ 'post_type' ] ) && ! current_user_can( 'edit_' . $_POST[ 'post_type' ], $post_id ) )
 		)
