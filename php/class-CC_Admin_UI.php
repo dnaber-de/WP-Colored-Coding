@@ -392,9 +392,10 @@ class CC_Admin_UI {
 			'writing',
 			$this->settings_section,
 			array(
-				'id'        => 'cc_enable_raw_output_option',
-				'label_for' => 'cc_enable_raw_output_option',
-				'name'      => $this->plugin->option_key . '[enable_raw_output_option]'
+				'id'          => 'cc_enable_raw_output_option',
+				'label_for'   => 'cc_enable_raw_output_option',
+				'name'        => $this->plugin->option_key . '[enable_raw_output_option]',
+				'description' => __( 'Provide an option on each codeblock to print it as raw HTML/Javascript instead of escaping it.', 'wp-cc' )
 			)
 		);
 	}
@@ -408,7 +409,7 @@ class CC_Admin_UI {
 	public function settings_description() {
 		?>
 		<div class="inside">
-			<p><?php _e( 'If you want to use syntax highlighting via rainbow.js, just enable it and choose a theme', 'wp-cc' ); ?></p>
+			<p><?php _e( 'If you want to use syntax highlighting via rainbow.js, just enable it and choose a theme.', 'wp-cc' ); ?></p>
 		</div>
 		<?php
 	}
@@ -475,6 +476,12 @@ class CC_Admin_UI {
 		<?php endforeach; ?>
 		</select>
 		<?php
+		if ( ! empty( $attr[ 'description' ] ) ) : ?>
+			<p class="help">
+				<?php echo $attr[ 'description' ]; ?>
+			</p>
+			<?php
+		endif;
 	}
 
 	/**
@@ -491,6 +498,12 @@ class CC_Admin_UI {
 		?>
 		<input type="checkbox" name="<?php echo $attr[ 'name' ]; ?>" id="<?php echo $attr[ 'id' ]; ?>" value="1" <?php checked( $current_value, '1' ); ?> />
 		<?php
+		if ( ! empty( $attr[ 'description' ] ) ) : ?>
+			<p class="help">
+				<?php echo $attr[ 'description' ]; ?>
+			</p>
+			<?php
+		endif;
 	}
 
 	/**
