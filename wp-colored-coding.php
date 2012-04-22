@@ -138,6 +138,9 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			require_once self::$path . '/php/class-CC_Admin_UI.php';
 			require_once self::$path . '/php/class-Rainbow_API.php';
+
+			load_plugin_textdomain( 'wp-cc', FALSE, basename( dirname( __FILE__ ) ) . '/lang' );
+
 			new self( TRUE );
 		}
 
