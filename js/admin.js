@@ -152,7 +152,9 @@
 						data,
 						function( data ) {
 							if ( data.name ) {
-								$( '#name-' + ns ).attr( 'value', data.name );
+								$( '#name-' + ns )
+									.attr( 'value', data.name )
+									.attr( 'readonly', 'readonly' );
 							}
 							if ( data.deleted ) {
 								$( '#' + ns ).slideUp(

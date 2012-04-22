@@ -194,6 +194,9 @@ class CC_Admin_UI {
 									name="wp-cc[block][<?php echo $ns; ?>][name]"
 									value="<?php echo $v[ 'name' ]; ?>"
 									placeholder="<?php esc_attr_e( 'Use within the Shortcode [cc name=""]', 'wp-cc' ); ?>"
+									<?php if ( '' !== $v[ 'name' ] ) : ?>
+										readonly="readonly"
+									<?php endif; ?>
 								/>
 							</p>
 							<p>
@@ -290,6 +293,7 @@ class CC_Admin_UI {
 	 * @return void
 	 */
 	public function update_single() {
+		$_POST = stripslashes_deep( $_POST );
 
 		if ( ! defined( 'DOING_AJAX' )  || ! DOING_AJAX )
 			return;
@@ -308,7 +312,7 @@ class CC_Admin_UI {
 		$block = array();
 		$block[ 'code' ] = $_POST[ 'code' ];
 		$block[ 'lang' ] = $_POST[ 'lang' ];
-		# post-meta api serializes (bool) TRUE to (string) '1' so we take the string
+		# post-meta api serializes (bool) TRUE to (string) '1' so we use a string
 		$block[ 'raw' ]  = isset( $_POST[ 'raw' ] ) && '1' === $_POST[ 'raw' ] ? '1' : '0';
 
 		$this->plugin->set_single_block( $id, $name, $block );
@@ -316,7 +320,7 @@ class CC_Admin_UI {
 		$new = $this->plugin->get_code( $id );
 		if ( ! isset( $new[ $name ] ) )
 			$return[ 'deleted' ] = TRUE;
-		elseif ( ! isset( $existing[ $name ] ) || $new[ $name ] !== $existing[ $name ] )
+		elseif ( ! isset( $existing[ $name ] ) || array() !== array_diff( $new[ $name ], $existing[ $name ] ) )
 			$return[ 'updated' ] = TRUE;
 
 		if ( $name !== $_POST[ 'name' ] )
@@ -587,26 +591,4 @@ class CC_Admin_UI {
 		}
 		return $select;
 	}
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

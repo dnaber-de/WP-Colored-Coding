@@ -427,7 +427,5 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$this->options = get_option( $this->option_key, self::$default_options );
 		}
-
 	} # end of class
-
 }
