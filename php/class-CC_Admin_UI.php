@@ -73,21 +73,20 @@ class CC_Admin_UI {
 	 */
 	public function admin_scripts() {
 		global $pagenow;
-		$plugin = $this->plugin;
 
 		wp_enqueue_script(
 			'wp-cc-admin-script',
-			$plugin::$uri . '/js/admin.js',
+			WP_Colored_Coding::$uri . '/js/admin.js',
 			array( 'jquery', 'jquery-color' ),
-			$plugin::VERSION,
+			WP_Colored_Coding::VERSION,
 			FALSE
 		);
 
 		wp_enqueue_style(
 			'wp-cc-admin-style',
-			$plugin::$uri . '/css/admin.css',
+			WP_Colored_Coding::$uri . '/css/admin.css',
 			array(),
-			$plugin::VERSION
+			WP_Colored_Coding::VERSION
 		);
 
 		wp_localize_script(
@@ -516,8 +515,7 @@ class CC_Admin_UI {
 	 */
 	public function register_mce_plugin( $mce_plugins ) {
 
-		$plugin = $this->plugin;
-		$mce_plugins[ 'wpCCDialog' ] = $plugin::$uri . '/js/editor_plugin.js';
+		$mce_plugins[ 'wpCCDialog' ] = WP_Colored_Coding::$uri . '/js/editor_plugin.js';
 
 		return $mce_plugins;
 	}
