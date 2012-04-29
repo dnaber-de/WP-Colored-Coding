@@ -20,6 +20,7 @@
 }
 .cc-code {
 	margin-left: 50px;
+	font-family: Consolas, "Courier New", Courier, monospace;
 }
 .cc-code-buttons {
 	width: 40px;
