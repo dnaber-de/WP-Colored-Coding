@@ -43,7 +43,7 @@ msgstr "Bezeichner"
 #: php/class-CC_Admin_UI.php:196
 #@ wp-cc
 msgid "Use within the Shortcode [cc name=\"\"]"
-msgstr "Wird im Shortcode verwendet [cc name=\\\"\\\"]"
+msgstr "Wird im Shortcode verwendet [cc name=\"\"]"
 
 #: php/class-CC_Admin_UI.php:203
 #@ wp-cc
