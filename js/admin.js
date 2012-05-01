@@ -14,8 +14,9 @@
 			 * buttons for the textarea
 			 */
 			//remember the selection
-			$( '.wp-cc-codearea' ).on(
+			$( document ).on(
 				'blur',
+				'.wp-cc-codearea',
 				function() {
 					/**
 					 * cross-browser selectrion
@@ -73,8 +74,9 @@
 			);
 
 			// set the cursor to the right position
-			$( '.wp-cc-codearea' ).on(
+			$( document ).on(
 				'focus',
+				'.wp-cc-codearea',
 				function() {
 					if ( 'number' == typeof( this.selectionStart ) && 'undefined' != typeof( this.ccSelection ) )
 						this.selectionStart = this.selectionEnd = this.ccSelection.start;
@@ -83,8 +85,9 @@
 			);
 
 			//insert a tab
-			$( '.wp-cc-insert-tab' ).on(
+			$( document ).on(
 				'click',
+				'.wp-cc-insert-tab',
 				function( e ) {
 					e.preventDefault();
 					var textarea = document.getElementById( $( this ).attr( 'data-target-id' ) );
@@ -106,8 +109,9 @@
 	$( document ).ready(
 		function() {
 			// append a new codeblock section
-			$( '#wp-cc-new-block' ).on(
+			$( document ).on(
 				'click',
+				'#wp-cc-new-block',
 				function() {
 					$.post(
 						wpCcGlobals.AjaxUrl,
