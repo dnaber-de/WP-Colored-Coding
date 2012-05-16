@@ -218,17 +218,21 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		protected function enqueue_scripts( $lang = '' ) {
 			global $wp_scripts;
 
+			$queue = $wp_scripts instanceof WP_Scripts && is_array( $wp_scripts->queue )
+				? $wp_scripts->queue
+				: array();
+
 			# enqueue scripts in header
 			if ( 'wp_enqueue_scripts' === current_filter() ) {
 				foreach ( $this->scripts as $handle => $args ) {
-					if ( empty( $args[ 'in_footer' ] ) && ! in_array( $handle, $wp_scripts->queue ) )
+					if ( empty( $args[ 'in_footer' ] ) && ! in_array( $handle, $queue ) )
 						wp_enqueue_script( $handle );
 				}
 				return;
 			}
 			if ( ! empty( $lang ) ) {
 				foreach ( $this->scripts as $handle => $args ) {
-					if ( $lang === $args[ 'lang' ] && ! in_array( $handle, $wp_scripts->queue ) ) {
+					if ( $lang === $args[ 'lang' ] && ! in_array( $handle, $queue ) ) {
 						wp_enqueue_scripts( $handle );
 						return; # all others should handle with the dependencies array
 					}
@@ -238,7 +242,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			foreach ( $this->scripts as $handle => $args ) {
 				if (
 				    ( empty( $args[ 'lang' ] ) || 'all' === $args[ 'lang' ] )
-				&&  ! in_array( $handle, $wp_scripts->queue )
+				&&  ! in_array( $handle, $queue )
 				) {
 					wp_enqueue_script( $handle );
 				}
