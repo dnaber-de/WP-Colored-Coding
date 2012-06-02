@@ -146,7 +146,7 @@ class Rainbow_API {
 					'src'       => {SRC},
 					'depts      => array( 'rainbow' ),
 					'lang'      => 'php', # use the 'slug'
-					'in_footer' => TRUE # this must be equal with the script this depends on
+					'in_footer' => TRUE # this must be equal with the script it depends on
 				),
 			*/
 			'rainbow' =>

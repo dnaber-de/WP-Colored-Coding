@@ -185,9 +185,13 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		public function register_scripts() {
 
 			foreach ( $this->themes as $handle => $t ) {
+				$css_src = '.' == dirname( $t[ 'src' ] )
+					? self::$uri . '/css/rainbow-themes/' . $t[ 'src' ] #internal styles
+					: $t[ 'scr' ]; #external styles (@see Rainbow_API::themes())
+
 				wp_register_style(
 					$handle,
-					self::$uri . '/css/rainbow-themes/' . $t[ 'src' ],
+					$css_src,
 					array(),
 					self::VERSION,
 					'all'
