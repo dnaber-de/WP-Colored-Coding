@@ -74,10 +74,26 @@ class CC_Admin_UI {
 	public function admin_scripts() {
 		global $pagenow;
 
+		wp_register_script(
+			'modernizr-custom',
+			WP_Colored_Coding::$uri . '/js/relevant-dropdowns/modernizr.custom.95508.js',
+			array(),
+			WP_Colored_Coding::VERSION,
+			FALSE
+		);
+
+		wp_register_script(
+			'relevant-dropdowns',
+			WP_Colored_Coding::$uri . '/js/relevant-dropdowns/jquery.relevant-dropdown.js',
+			array( 'modernizr-custom', 'jquery' ),
+			WP_Colored_Coding::VERSION,
+			FALSE
+		);
+
 		wp_enqueue_script(
 			'wp-cc-admin-script',
 			WP_Colored_Coding::$uri . '/js/admin.js',
-			array( 'jquery', 'jquery-color' ),
+			array( 'jquery', 'jquery-color', 'relevant-dropdowns' ),
 			WP_Colored_Coding::VERSION,
 			FALSE
 		);
@@ -150,7 +166,8 @@ class CC_Admin_UI {
 				id="wp-cc-new-block"
 				value="<?php _e( 'Give me the next block', 'wp-cc' ); ?>"
 			/></p>
-		</div>
+
+			</div>
 		<?php
 	}
 
@@ -202,7 +219,7 @@ class CC_Admin_UI {
 								<label for="lang-<?php echo $ns; ?>"><?php _e( 'Language', 'wp-cc' ); ?></label>
 								<input
 									id="lang-<?php echo $ns; ?>"
-									class="cc-data"
+									class="cc-data cc-lang"
 									type="text"
 									name="wp-cc[block][<?php echo $ns; ?>][lang]"
 									value="<?php echo $v[ 'lang' ]; ?>"

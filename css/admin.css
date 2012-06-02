@@ -12,7 +12,8 @@
 	min-width: 250px;
 	padding-right: 2%;
 }
-.cc-input input {
+.cc-input input[type=text],
+.cc-input input[type=button] {
 	width: 100%;
 }
 .cc-submit {
@@ -29,4 +30,30 @@
 	width: 40px;
 	float: left;
 	padding-top: 1.5em;
+}
+/**
+ * datalist polyfill
+ */
+.datalist {
+	list-style: none;
+	display: none;
+	background: white;
+	box-shadow: 0 2px 2px #999;
+	position: absolute;
+	left: 0;
+	top: 0;
+	max-height: 300px;
+	overflow-y: auto;
+	z-index: 10;
+}
+.datalist:empty {
+	display: none !important;
+}
+.datalist li {
+	padding: 3px;
+	font: 13px "Lucida Grande", Sans-Serif;
+}
+.datalist li.active {
+	background: #3875d7;
+	color: white;
 }

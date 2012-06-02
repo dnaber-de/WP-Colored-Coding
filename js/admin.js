@@ -322,4 +322,16 @@
 	};
 	$( document ).ready( ccDialog.init );
 
+
+	/**
+	 * polyfill for datalist-elements
+	 */
+	$( document ).ready(
+		function() {
+			if ( ! Modernizr.input.list || ( parseInt( $.browser.version ) > 400 ) ) {
+				$( '.cc-lang' ).relevantDropdown();
+			}
+		}
+	);
+
 } )(jQuery);
