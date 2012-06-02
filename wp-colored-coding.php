@@ -121,6 +121,14 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		protected $admin_ui = NULL;
 
 		/**
+		 * global shortcodes
+		 *
+		 * @access private
+		 * @var array
+		 */
+		private $global_shortcodes = array();
+
+		/**
 		 * let's go
 		 *
 		 * @access public
@@ -167,12 +175,56 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			 * rainbow.js themes and supported languages
 			 * @see Rainbow_API
 			 */
-			$this->themes  = apply_filters( 'wp_cc_rainbow_themes', array() );
+			$this->themes  = apply_filters( 'wp_cc_rainbow_themes',    array() );
 			$this->langs   = apply_filters( 'wp_cc_rainbow_languages', array() );
-			$this->scripts = apply_filters( 'wp_cc_rainbow_scripts', array() );
+			$this->scripts = apply_filters( 'wp_cc_rainbow_scripts',   array() );
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 			add_shortcode( 'cc', array( $this, 'cc_block_shortcode' ) );
+			/**
+			 * apply do_shortcode() before wpautop() to 'the_content' only for
+			 * the 'cc' shortcode
+			 */
+			add_filter( 'the_content', array( $this, 'bypass_shortcodes' ), 5 );
+		}
+
+		/**
+		 * store the global shortcodes to bypass it
+		 *
+		 * @access public
+		 * @since 0.1
+		 * @param string $content
+		 * @global $shortcode_tags
+		 * @return void
+		 */
+		public function bypass_shortcodes( $content ) {
+			global $shortcode_tags;
+
+			$this->global_shortcodes = $shortcode_tags;
+			foreach ( $shortcode_tags as $key => $bypass ) {
+				if ( 'cc' !== $key )
+					unset( $shortcode_tags[ $key ] );
+			}
+			$pattern = get_shortcode_regex();
+			$content = preg_replace_callback( "/$pattern/s", 'do_shortcode_tag', $content );
+			$this->restore_shortcodes(); #important!
+
+			return $content;
+		}
+
+		/**
+		 * restore shortcodes
+		 *
+		 * @access protected
+		 * @since 0.1
+		 * @global $shortcode_tags
+		 * @return void
+		 */
+		protected function restore_shortcodes() {
+			global $shortcode_tags;
+
+			$shortcode_tags = $this->global_shortcodes;
+			remove_shortcode( 'cc' );
 		}
 
 		/**
@@ -260,37 +312,75 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 * @access public
 		 * @since 0.1
 		 * @param array $attr
+		 * @param srting $content (Optional)
 		 * @return string
 		 */
-		public function cc_block_shortcode( $attr ) {
+		public function cc_block_shortcode( $attr, $content = '' ) {
 
 			$attr = shortcode_atts(
-				array( 'name' => '' ),
+				array(
+					'name' => '',
+					'lang' => ''
+				),
 				$attr
 			);
-			if ( empty( $attr[ 'name' ] ) )
+			if ( empty( $attr[ 'name' ] ) && empty( $content ) )
 				return '';
 
-			$id      = get_the_ID();
-			$code    = $this->get_code( $id );
-			if ( empty( $code[ $attr[ 'name' ] ] ) )
-				return'';
-			$code    = $code[ $attr[ 'name' ] ];
-			$class   = empty( $code[ 'lang' ] ) ? 'wp-cc' : 'wp-cc wp-cc-' . $code[ 'lang' ];
+			$lang = '';
+			$print_raw  = FALSE;
+
+			/**
+			 * print codeblock
+			 */
+			if ( ! empty( $attr[ 'name' ] ) ) {
+				$id      = get_the_ID();
+				$code    = $this->get_code( $id );
+				if ( empty( $code[ $attr[ 'name' ] ] ) )
+					return ''; # codeblock doesn't exist
+
+				$codeblock = $code[ $attr[ 'name' ] ];
+				$lang      = $codeblock[ 'lang' ];
+				if ( isset( $code[ 'raw' ] )
+				  && '1' === $code[ 'raw' ]
+				  && '1' === $this->options[ 'enable_raw_output_option' ]
+				) {
+					$content   = $codeblock[ 'code' ];
+					$print_raw = TRUE;
+				}
+				else
+					$content = esc_attr( $codeblock[ 'code' ] );
+			}
+			/**
+			 * print enclosed content as code
+			 */
+			elseif ( ! empty( $content ) ) {
+
+				$lang    = esc_attr( $attr[ 'lang' ] );
+				$content = esc_attr( $content );
+			}
+
+			$class   = empty( $lang ) ? 'wp-cc' : 'wp-cc wp-cc-' . $lang;
 			$wrapper = '<div class="' . $class . '">%s</div>';
-			$wrapper = apply_filters( 'wp_cc_markup_wrapper', $wrapper, $code );
-			$print   = '';
+			$wrapper = apply_filters( 'wp_cc_markup_wrapper', $wrapper, $lang );
 
-			if ( '1' === $this->options[ 'use_syntax_highlighting' ] && empty( $code[ 'raw' ] ) )
-				$this->enqueue_scripts( $code[ 'lang' ] );
+			if ( '1' === $this->options[ 'use_syntax_highlighting' ] && ! $print_raw )
+				$this->enqueue_scripts( $lang );
 
-			if ( isset( $code[ 'raw' ] )
-			  && '1' === $code[ 'raw' ]
-			  && '1' === $this->options[ 'enable_raw_output_option' ]
-			)
-				$print = $code[ 'code' ];
-			else
-				$print = '<pre><code data-language="' . $code[ 'lang' ] . '">' . esc_attr( $code[ 'code' ] ) . '</code></pre>';
+			$print =
+				  '<pre>'
+				. '<code'
+				. ( ! empty( $lang )
+						? ' data-language="' . $lang . '"'
+						: ''
+				  )
+				. '>'
+				. $content
+				. '</code></pre>';
+
+			global $shortcode_tags;
+			#echo '<pre>'; var_dump( $shortcode_tags );
+			#echo '<pre>'; var_dump( $GLOBALS[ 'wp_filter' ][ 'the_content' ] );
 
 			return sprintf( $wrapper, $print );
 		}
@@ -328,10 +418,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			if ( ! is_array( $blocks ) )
 				$blocks = array();
 			$this->codeblocks[ $post_id ] = $blocks;
-
 		}
-
-
 
 		/**
 		 * sets a single codeblock by name
