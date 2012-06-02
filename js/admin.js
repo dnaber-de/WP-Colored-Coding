@@ -209,7 +209,7 @@
 
 			// any tinymce here?
 			if ( 'undefined' == typeof( edCanvas ) )
-				return;
+				return; //no!
 			//tinyMCEPopup is still undefined at this point
 
 			ccDialog.dialog = $( '#wp-cc-mce-popup' );
@@ -236,17 +236,23 @@
 		submit : function( e ) {
 
 			e.preventDefault();
-			var name = null;
-			name = ccDialog.dialog.find( 'select:first-child' ).val();
+			var codeblock = null;
+			var language  = null;
+			codeblock = ccDialog.dialog.find( '#wp-cc-dialog-options-codeblocks select' ).val();
+			language  = ccDialog.dialog.find( '#wp-cc-dialog-options-language select' ).val();
 
 			//no values at all?
-			if ( ! name ) {
+			if ( ! codeblock && ! language ) {
 				ccDialog.close();
 				return false;
 			}
 
 			//the shortcode
-			var sc = '[cc name="' + name + '"]';
+			if ( codeblock )
+				var sc = '[cc name="' + codeblock + '"]';
+			else if ( language )
+				var sc = '[cc lang="' + language + '"][/cc]';
+
 
 			//TinyMCE Mode (richt text editor)
 			if ( ccDialog.isMCE() ) {
@@ -273,12 +279,12 @@
 				{
 					nonce    : $( '#wp-cc-dialog-nonce' ).val(),
 					action   : wpCcGlobals.UpdateOptionsAction,
-					name     : 'wp-cc-dialog-shortcodes',
+					name     : 'wp-cc-dialog-codeblocks',
 					pid      : wpCcGlobals.PostID
 				},
 				function( data ) {
 					//data is a html string
-					$( '#wp-cc-dialog-options' ).html( data );
+					$( '#wp-cc-dialog-options-codeblocks' ).html( data );
 				}
 			);
 		},

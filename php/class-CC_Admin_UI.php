@@ -547,8 +547,14 @@ class CC_Admin_UI {
 			<form id="wp-cc-mce-popup">
 				<div class="postbox">
 					<div class="inside">
+						<h4><?php _e( 'Insert a Codeblock', 'wp-cc' ); ?></h4>
 						<p><label for="cc-dialog-shortcodes"><?php _e( 'Available Codeblocks', 'wp-cc' ); ?></label></p>
-						<p id="wp-cc-dialog-options"><?php echo $this->get_code_dropdown( 'wp-cc-dialog-shortcodes' ); ?></p>
+						<p id="wp-cc-dialog-options-codeblocks"><?php echo $this->get_code_dropdown( 'wp-cc-dialog-codeblocks' ); ?></p>
+					</div>
+					<div class="inside">
+						<h4><?php _e( 'or write your code into the editor', 'wp-cc' ); ?></h4>
+						<p><label for="cc-dialog-shortcodes"><?php _e( 'Languages supported by Rainbow.js', 'wp-cc' ); ?></label></p>
+						<p id="wp-cc-dialog-options-language"><?php echo $this->get_supported_languages_dropdown( 'wp-cc-dialog-language' ); ?></p>
 					</div>
 					<div class="inside">
 						<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Insert Shortcode', 'wp-cc' ); ?>" /></p>
@@ -590,7 +596,9 @@ class CC_Admin_UI {
 		if ( empty( $id ) )
 			$id = $name;
 
-		$select = '<select name="' . $name . '" id="' . $id . '">';
+		$select =
+			  '<select name="' . $name . '" id="' . $id . '">'
+			. '<option value=""></option>';
 		$code = $this->plugin->get_code( $pid );
 		foreach ( $code as $name => $c ) {
 			$select .='<option value="' . $name . '">' . $name . '</option>';
@@ -603,4 +611,31 @@ class CC_Admin_UI {
 		}
 		return $select;
 	}
+
+	/**
+	 * all supported languages as select-element
+	 *
+	 * @access public
+	 * @param string $id
+	 * @param string $name
+	 * @return string
+	 */
+	public function get_supported_languages_dropdown( $name = '', $id = '' ) {
+
+		if ( empty( $id ) )
+			$id = $name;
+
+		$select =
+			  '<select name="' . $name . '" id="' . $id . '">'
+			. '<option value=""></option>';
+
+		$langs = $this->plugin->get_langs();
+		foreach ( $langs as $slug => $name ) {
+			$select .='<option value="' . $slug . '">' . $name . '</option>';
+		}
+		$select .= '</select>';
+
+		return $select;
+	}
+
 }
