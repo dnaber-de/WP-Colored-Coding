@@ -103,7 +103,7 @@ msgstr "Ermöglicht für jedes Codeschnipsel, es als reines HTML (ohne Filter) a
 #: php/class-CC_Admin_UI.php:413
 #@ wp-cc
 msgid "If you want to use syntax highlighting via rainbow.js, just enable it and choose a theme."
-msgstr "Wenn Du Rainbow.js zum optischen Gestaltung (Syntax-Highlighting) nutzen willst, setze die Option und wähle ein Theme."
+msgstr "Wenn Du Rainbow.js zur optischen Gestaltung (Syntax-Highlighting) nutzen willst, setze die Option und wähle ein Theme."
 
 #: php/class-CC_Admin_UI.php:552
 #@ wp-cc
