@@ -65,7 +65,32 @@ class Rainbow_API {
 				array(
 					'src'  => 'zenburnesque.css',
 					'name' => 'Zenburnesque'
+					),
+
+			'obsidian' =>
+				array(
+					'src'  => 'obsidian.css',
+					'name' => 'Obsidian'
+					),
+
+			'solarized-dark' =>
+				array(
+					'src'  => 'solarized-dark.css',
+					'name' => 'Solarized Dark'
+					),
+
+			'solarized-light' =>
+				array(
+					'src'  => 'solarized-light.css',
+					'name' => 'Solarized Light'
+					),
+
+			'sunburst' =>
+				array(
+					'src'  => 'sunburst.css',
+					'name' => 'Sunburst'
 					)
+
 		);
 
 		return array_merge( $themes, $default_themes );
@@ -93,7 +118,10 @@ class Rainbow_API {
 			'ruby'       => 'Ruby',
 			'shell'      => 'Shell',
 			'phyton'     => 'Python',
-			'javascript' => 'Javascript'
+			'javascript' => 'Javascript',
+			'lua'        => 'Lua',
+			'csharp'     => 'C#',
+			'sheme'      => 'Sheme'
 		);
 
 		return array_merge( $lang, $default_languages );
