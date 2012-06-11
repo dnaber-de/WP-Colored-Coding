@@ -4,7 +4,7 @@ Brings the cool Javascript syntax highlighter [Rainbow.js](https://github.com/cc
 
 ## Installation
 
-Just [download](https://github.com/dnaber-de/WP-Colored-Coding/downloads) the plugin archive and follow the instructions at http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation.
+Just [download](https://github.com/dnaber-de/WP-Colored-Coding/downloads) the plugin archive and follow the instructions on the [Wordpress Codex](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
 ## Setup
 
@@ -53,7 +53,7 @@ The following filters are provided:
 * `wp_cc_rainbow_languages`
 
 Adding a new Theme is quite easy. Just expend the themes-array by a key like this
-```php
+```PHP
 /**
  * @param array $themes
  * @return array
@@ -70,7 +70,7 @@ add_filter( 'wp_cc_rainbow_themes', 'my_new_rainbow_theme' );
 ```
 
 To add a supported language use
-```php
+```PHP
 /**
  * @param array $scripts
  * @return array
