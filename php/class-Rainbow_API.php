@@ -141,11 +141,11 @@ class Rainbow_API {
 			/**
 			 * for a language-specific script use this
 			 *
-			'rainbow_php' =>
+			'rainbow_my_language' =>
 				array(
 					'src'       => {SRC},
 					'depts      => array( 'rainbow' ),
-					'lang'      => 'php', # use the 'slug'
+					'lang'      => 'my_language', # use the 'slug'
 					'in_footer' => TRUE # this must be equal with the script it depends on
 				),
 			*/
