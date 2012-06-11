@@ -31,7 +31,7 @@ The language field is also optional. To use syntax highlighting, write in a rain
 * shell
 * sheme
 
-These code can be placed in the text by using the shortcode [cc name="{name}"]. You can use the TinyMCE button »CC« for that.
+Each codeblock can be placed anywhere in the text by using the shortcode [cc name="{name}"]. You can use the TinyMCE button »CC« for that.
 
 ### Shortcode (in-text code)
 
