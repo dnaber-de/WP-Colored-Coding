@@ -18,7 +18,7 @@ This option enables an additional checkbox for each codeblock of a post which al
 
 ### Codeblocks
 
-A single Codeblock is identified (in the posts context) by their name. If you don't want to specify a name for each block, leave it empty, it will be generated automatically.
+A single Codeblock is identified (in the posts context) by its name. If you don't want to specify a name for each block, leave it empty, it will be generated automatically.
 
 The language field is also optional. To use syntax highlighting, write in a rainbow supported language. (It will give you suggestions.) Currently these are
 * c
