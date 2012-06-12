@@ -1,6 +1,6 @@
 # WP Colored Coding
 
-Brings the cool Javascript syntax highlighter [Rainbow.js](https://github.com/ccampbell/rainbow) to your Wordpress-Blog and allows you to manage code snippets indipendend from the texteditor.
+Brings the cool Javascript syntax highlighter [Rainbow.js](https://github.com/ccampbell/rainbow) to your Wordpress-Blog and allows you to manage code snippets independend from the text editor.
 
 ## Installation
 
@@ -8,11 +8,11 @@ Just [download](https://github.com/dnaber-de/WP-Colored-Coding/downloads) the pl
 
 ## Setup
 
-By default, the plugin is ready to use after activation. Some options can be changed on Settings → Writing.
+By default, the plugin is ready for use after activation. Some options can be changed on Settings → Writing.
 
 ### Raw output
 
-This option enables an additional checkbox for each codeblock of a post which allows you to disable the `esc_attr()` filter for that code snippet. That means, every HTML and Javascript inside these textarea will be parsed by the browser as those. So be carefull with this option.
+This option enables an additional checkbox for each codeblock of a post which allows you to disable the `esc_attr()` filter for that code snippet. That means, every HTML and Javascript inside this textarea will be parsed by the browser as those. So be carefull with this option.
 
 ## Usage
 
@@ -35,7 +35,7 @@ Each codeblock can be placed anywhere in the text by using the shortcode [cc nam
 
 ### Shortcode (in-text code)
 
-For just a fiew lines of code you may want to use the shortcode like so:
+For just a few lines of code you may want to use the shortcode like this:
 
 ```
 [cc lang="javascript"]
@@ -53,7 +53,7 @@ The following filters are provided:
 * `wp_cc_rainbow_languages`
 
 Adding a new Theme is quite easy. Just expend the themes-array by a key like this
-```PHP
+```php
 /**
  * @param array $themes
  * @return array
@@ -70,7 +70,7 @@ add_filter( 'wp_cc_rainbow_themes', 'my_new_rainbow_theme' );
 ```
 
 To add a supported language use
-```PHP
+```php
 /**
  * @param array $scripts
  * @return array
@@ -101,4 +101,3 @@ function my_new_lang( $langs ) {
 }
 add_filter( 'wp_cc_rainbow_languages', 'my_new_lang' );
 ```
-
