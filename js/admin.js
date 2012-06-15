@@ -158,6 +158,9 @@
 		}
 	);
 
+	/**
+	 * the dialog triggered by the TinyMCE Button
+	 */
 	ccDialog  = {
 
 		/**
@@ -216,7 +219,7 @@
 
 			//the shortcode
 			if ( codeblock )
-				var sc = '[cc name="' + codeblock + '"]';
+				var sc = '[cc name="' + codeblock + '"/]';
 			else if ( language )
 				var sc = '[cc lang="' + language + '"][/cc]';
 
