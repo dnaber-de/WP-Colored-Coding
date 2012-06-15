@@ -297,7 +297,7 @@ class CC_Admin_UI {
 				$b[ 'name' ] = $this->plugin->get_name( $post_id, count( $blocks ) );
 			# post-meta api serializes (bool) TRUE to (string) '1' so we take the string for true/false data
 			$raw = isset( $b[ 'raw' ] ) && '1' === $b[ 'raw' ] ? '1' : '0';
-			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => $b[ 'lang' ], 'raw' => $raw );
+			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => trim( $b[ 'lang' ] ), 'raw' => $raw );
 		}
 		$this->plugin->set_code_blocks( $post_id, $blocks );
 		$this->plugin->update_codeblocks();
@@ -328,7 +328,7 @@ class CC_Admin_UI {
 
 		$block = array();
 		$block[ 'code' ] = $_POST[ 'code' ];
-		$block[ 'lang' ] = $_POST[ 'lang' ];
+		$block[ 'lang' ] = trim( $_POST[ 'lang' ] );
 		# post-meta api serializes (bool) TRUE to (string) '1' so we use a string
 		$block[ 'raw' ]  = isset( $_POST[ 'raw' ] ) && '1' === $_POST[ 'raw' ] ? '1' : '0';
 
