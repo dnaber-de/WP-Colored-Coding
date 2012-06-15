@@ -89,6 +89,12 @@ class Rainbow_API {
 				array(
 					'src'  => 'sunburst.css',
 					'name' => 'Sunburst'
+					),
+
+			'technicolor' =>
+				array(
+					'src'  => 'technicolor.css',
+					'name' => 'Technicolor'
 					)
 
 		);
