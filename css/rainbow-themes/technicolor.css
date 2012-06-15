@@ -74,9 +74,6 @@ pre .vendor-prefix {
 /**
  * html
  */
-pre .tag.special + .tag-name {
-	font-weight: bold;
-}
 pre .attribute {
 	color: #494cc6;
 }
