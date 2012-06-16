@@ -381,6 +381,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			elseif ( ! empty( $content ) ) {
 
 				$lang    = esc_attr( $attr[ 'lang' ] );
+				$content = preg_replace( "~^(\r\n|\n)~", '', $content );
 				$content = esc_attr( $content );
 			}
 
