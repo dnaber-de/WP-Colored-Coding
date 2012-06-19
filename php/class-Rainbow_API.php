@@ -127,7 +127,7 @@ class Rainbow_API {
 			'javascript' => 'Javascript',
 			'lua'        => 'Lua',
 			'csharp'     => 'C#',
-			'sheme'      => 'Sheme'
+			'sheme'      => 'Basic Sheme'
 		);
 
 		return array_merge( $lang, $default_languages );
