@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Colored Coding
- * Plugin URI:  http://dnaber.de/
+ * Plugin URI:  http://dnaber.de/blog/2012/wordpress-plugin-colored-coding/
  * Author:      David Naber
  * Author URI:  http://dnaber.de/
  * Version:     1.0
