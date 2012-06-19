@@ -75,7 +75,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 * @var array
 		 */
 		protected static $default_options = array(
-			'rainbow_theme'            => 'all-hallows-eve',
+			'rainbow_theme'            => 'technicolor',
 			'use_syntax_highlighting'  => '1',
 			'enable_raw_output_option' => '0'
 		);
