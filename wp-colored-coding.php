@@ -209,6 +209,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			 * the 'cc' shortcode
 			 */
 			add_filter( 'the_content', array( $this, 'bypass_shortcodes' ), 5 );
+
 		}
 
 		/**
@@ -309,10 +310,11 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 				}
 				return;
 			}
+
 			if ( ! empty( $lang ) ) {
 				foreach ( $this->scripts as $handle => $args ) {
 					if ( $lang === $args[ 'lang' ] && ! in_array( $handle, $queue ) ) {
-						wp_enqueue_scripts( $handle );
+						wp_enqueue_script( $handle );
 						return; # all others should handle with the dependencies array
 					}
 				}
