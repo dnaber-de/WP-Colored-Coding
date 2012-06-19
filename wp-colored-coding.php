@@ -55,7 +55,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 * @static
 		 * @var string
 		 */
-		public static $path = '';
+		public static $dir = '';
 
 		/**
 		 * URI to the plugin directory
@@ -161,14 +161,14 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 */
 		public static function init() {
 
-			self::$path = plugin_dir_path( __FILE__ );
+			self::$dir = plugin_dir_path( __FILE__ );
 			self::$uri  = plugins_url( '', __FILE__ );
 
 			if ( class_exists( 'CC_Admin_UI' ) )
 				return;
 
-			require_once self::$path . '/php/class-CC_Admin_UI.php';
-			require_once self::$path . '/php/class-Rainbow_API.php';
+			require_once self::$dir . '/php/class-CC_Admin_UI.php';
+			require_once self::$dir . '/php/class-Rainbow_API.php';
 
 			load_plugin_textdomain( 'wp-cc', FALSE, basename( dirname( __FILE__ ) ) . '/lang' );
 
@@ -372,9 +372,9 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 				) {
 					$content   = $codeblock[ 'code' ];
 					$print_raw = TRUE;
-				}
-				else
+				} else {
 					$content = esc_attr( $codeblock[ 'code' ] );
+				}
 			}
 			/**
 			 * print enclosed content as code
@@ -405,8 +405,6 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 				. '</code></pre>';
 
 			global $shortcode_tags;
-			#echo '<pre>'; var_dump( $shortcode_tags );
-			#echo '<pre>'; var_dump( $GLOBALS[ 'wp_filter' ][ 'the_content' ] );
 
 			return sprintf( $wrapper, $print );
 		}
