@@ -101,3 +101,7 @@ function my_new_lang( $langs ) {
 }
 add_filter( 'wp_cc_rainbow_languages', 'my_new_lang' );
 ```
+
+### Deactivation/Uninstallation
+
+If you deactivate the plugin all settings and codes will be preserved. On uninstallation (delete), all settings and codes will be deleted finally. If this is triggered from the network-admin page, all blogs will be cleaned up.
