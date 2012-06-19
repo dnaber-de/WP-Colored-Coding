@@ -7,9 +7,9 @@
  * @since 0.1
  */
 
-add_filter( 'wp_cc_rainbow_themes',    array( 'Rainbow_API', 'themes' ) );
-add_filter( 'wp_cc_rainbow_scripts',   array( 'Rainbow_API', 'scripts' ) );
-add_filter( 'wp_cc_rainbow_languages', array( 'Rainbow_API', 'languages' ) );
+add_filter( 'wp_cc_rainbow_themes',    array( 'Rainbow_API', 'themes' ),    9, 1 );
+add_filter( 'wp_cc_rainbow_scripts',   array( 'Rainbow_API', 'scripts' ),   9, 1 );
+add_filter( 'wp_cc_rainbow_languages', array( 'Rainbow_API', 'languages' ), 9, 1 );
 
 class Rainbow_API {
 
@@ -149,9 +149,9 @@ class Rainbow_API {
 			 *
 			'rainbow_my_language' =>
 				array(
-					'src'       => {SRC},
-					'depts      => array( 'rainbow' ),
-					'lang'      => 'my_language', # use the 'slug'
+					'src'       => '{SRC}',
+					'depts'     => array( 'rainbow' ),
+					'lang'      => 'my_language', # use as 'slug'
 					'in_footer' => TRUE # this must be equal with the script it depends on
 				),
 			*/

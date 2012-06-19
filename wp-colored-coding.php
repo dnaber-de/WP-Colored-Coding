@@ -37,7 +37,7 @@ if ( ! function_exists( 'add_filter' ) )
 
 if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
-	add_action( 'init', array( 'WP_Colored_Coding', 'init' ) );
+	add_action( 'init', array( 'WP_Colored_Coding', 'init' ), 11 );
 
 	class WP_Colored_Coding {
 
