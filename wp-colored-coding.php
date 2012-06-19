@@ -38,6 +38,7 @@ if ( ! function_exists( 'add_filter' ) )
 if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 	add_action( 'init', array( 'WP_Colored_Coding', 'init' ), 11 );
+	register_uninstall_hook( __FILE__, array( 'WP_Colored_Coding', 'unistall' ) );
 
 	class WP_Colored_Coding {
 
@@ -191,9 +192,6 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$this->load_options();
 
-			# settings and admin interfaces
-			$this->admin_ui = new CC_Admin_UI( $this );
-
 			/**
 			 * rainbow.js themes and supported languages
 			 * @see Rainbow_API
@@ -202,14 +200,19 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			$this->langs   = apply_filters( 'wp_cc_rainbow_languages', array() );
 			$this->scripts = apply_filters( 'wp_cc_rainbow_scripts',   array() );
 
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
-			add_shortcode( 'cc', array( $this, 'cc_block_shortcode' ) );
-			/**
-			 * apply do_shortcode() before wpautop() to 'the_content' only for
-			 * the 'cc' shortcode
-			 */
-			add_filter( 'the_content', array( $this, 'bypass_shortcodes' ), 5 );
+			if ( $hook_in ) {
 
+				# settings and admin interfaces
+				$this->admin_ui = new CC_Admin_UI( $this );
+
+				add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
+				add_shortcode( 'cc', array( $this, 'cc_block_shortcode' ) );
+				/**
+				 * apply do_shortcode() before wpautop() to 'the_content' only for
+				 * the 'cc' shortcode
+				 */
+				add_filter( 'the_content', array( $this, 'bypass_shortcodes' ), 5 );
+			}
 		}
 
 		/**
@@ -554,5 +557,53 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$this->options = get_option( $this->option_key, self::$default_options );
 		}
+
+		/**
+		 * clean up on uninstallation
+		 *
+		 * @access public
+		 * @static
+		 * @global $wpdb
+		 * @global $blog_id
+		 * @return void
+		 */
+		public static function unistall() {
+			global $wpdb;
+
+			$plugin = new self;
+			ignore_user_abort( -1 );
+
+			if ( is_network_admin() && isset( $wpdb->blogs ) ) {
+				$blogs = $wpdb->get_results(
+					'SELECT blog_id FROM ' .
+						$wpdb->blogs,
+					ARRAY_A
+				);
+				foreach ( $blogs as $key => $row ) {
+					$id = ( int ) $row[ 'blog_id' ];
+					switch_to_blog( $id );
+					delete_option( $plugin->option_key );
+					$wpdb->query(
+						'DELETE FROM ' .
+							$wpdb->postmeta . ' ' .
+						'WHERE ' .
+							$wpdb->postmeta . ".meta_key = '" . $plugin->meta_key . "'"
+					);
+					restore_current_blog();
+				}
+
+				return;
+			}
+
+			delete_option( $plugin->option_key );
+			$wpdb->query(
+				'DELETE FROM ' .
+					$wpdb->postmeta . ' ' .
+				'WHERE ' .
+					$wpdb->postmeta . ".meta_key = '" . $plugin->meta_key . "'"
+			);
+
+		}
+
 	} # end of class
 }
