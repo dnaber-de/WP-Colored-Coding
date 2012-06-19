@@ -476,10 +476,15 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			foreach ( $this->codeblocks as $id => $code ) {
 
-				if ( empty( $code ) )
-					delete_post_meta( $id, $this->meta_key );
-				else
+				foreach ( $code as $key => $single ) {
+					if ( '' == trim( $single[ 'code' ] ) )
+						unset( $code[ $key ] );
+				}
+				if ( ! empty( $code ) )
 					update_post_meta( $id, $this->meta_key, $code );
+				else
+					delete_post_meta( $id, $this->meta_key );
+
 			}
 		}
 
