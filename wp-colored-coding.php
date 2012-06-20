@@ -251,7 +251,6 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			global $shortcode_tags;
 
 			$shortcode_tags = $this->global_shortcodes;
-			remove_shortcode( 'cc' );
 		}
 
 		/**
