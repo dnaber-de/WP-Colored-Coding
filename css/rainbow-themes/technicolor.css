@@ -62,8 +62,8 @@ pre code[data-language="css"] .constant {
 pre .tag {
 	color: #040658;
 }
-pre .class,
-pre .id{
+pre code[data-language="css"] .class,
+pre .id {
 	color: #dc2525;
 }
 pre .vendor-prefix {
@@ -76,4 +76,61 @@ pre .vendor-prefix {
  */
 pre .attribute {
 	color: #494cc6;
+}
+
+pre code[data-language="c"]:before,
+pre code[data-language="php"]:before,
+pre code[data-language="css"]:before,
+pre code[data-language="lua"]:before,
+pre code[data-language="html"]:before,
+pre code[data-language="ruby"]:before,
+pre code[data-language="shell"]:before,
+pre code[data-language="csharp"]:before,
+pre code[data-language="python"]:before,
+pre code[data-language="javascript"]:before {
+	float: right;
+	color: #ddd;
+	font-size: 2em;
+}
+
+pre code[data-language="c"]:before {
+	content: "C";
+}
+
+pre code[data-language="php"]:before {
+	content: "PHP";
+}
+
+pre code[data-language="css"]:before {
+	content: "CSS";
+}
+
+pre code[data-language="lua"]:before {
+	content: "Lua";
+}
+
+pre code[data-language="html"]:before {
+	content: "HTML";
+}
+
+pre code[data-language="ruby"]:before {
+	content: "Ruby";
+}
+
+pre code[data-language="shell"]:before {
+	content: "Shell";
+}
+
+pre code[data-language="csharp"]:before {
+	content: "C#";
+}
+
+pre code[data-language="python"]:before {
+	content: "Python";
+	font-size: 1.5em;
+}
+
+pre code[data-language="javascript"]:before {
+	content: "Javascrip";
+	font-size: 1.5em;
 }
