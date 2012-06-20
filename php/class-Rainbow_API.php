@@ -123,7 +123,7 @@ class Rainbow_API {
 			'html'       => 'HTML',
 			'ruby'       => 'Ruby',
 			'shell'      => 'Shell',
-			'phyton'     => 'Python',
+			'python'     => 'Python',
 			'javascript' => 'Javascript',
 			'lua'        => 'Lua',
 			'csharp'     => 'C#',
