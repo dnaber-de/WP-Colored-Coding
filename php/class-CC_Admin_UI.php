@@ -184,7 +184,8 @@ class CC_Admin_UI {
 		$defaults = array(
 			'name' => '',
 			'code' => '',
-			'lang' => ''
+			'lang' => '',
+			'raw'  => '0'
 		);
 		$ns    = uniqid( '' );
 		$v     = wp_parse_args( $values, $defaults );
