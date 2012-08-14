@@ -136,3 +136,4 @@ If you deactivate the plugin all settings and codes will be preserved. On uninst
 
 = 1.1 =
 * spanish language files
+* rainbow support for Go, R, Coffeescript, Java, Smalltalk
