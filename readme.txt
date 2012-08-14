@@ -119,6 +119,12 @@ If you deactivate the plugin all settings and codes will be preserved. On uninst
 * Thanks to [sparanoid](https://github.com/sparanoid) for chinese translation
 * Thanks to [@volleyballfisch](https://twitter.com/Volleyballfisch) for spanish translation
 
+== Screenshots ==
+1. The Meta-Box on post edit screen to manage your code snippeds.
+2. TinyMCE popup to build and insert shortcode into the text editor.
+3. WP Colored Coding settings section.
+
+
 == Changelog ==
 
 = 1.0.0 =
