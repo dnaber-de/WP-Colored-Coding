@@ -109,7 +109,9 @@ class CC_Admin_UI {
 			'wpCcGlobals',
 			array(
 				'AjaxUrl'             => admin_url( 'admin-ajax.php' ),
-				'PostID'              => ( 'post.php' == $pagenow ) ? get_the_ID() : NULL,
+				'PostID'              => ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) )
+					? get_the_ID()
+					: NULL,
 				'NonceFieldId'        => 'wp-cc-nonce',
 				'UpdateBlock'         => 'wp_cc_update_block',
 				'NewBlockAction'      => 'wp_cc_new_block',
@@ -326,10 +328,11 @@ class CC_Admin_UI {
 			'deleted' => FALSE,
 			'updated' => FALSE
 		);
-		$id = ( int ) $_POST[ 'pid' ];
-		$name = empty( $_POST[ 'name' ] ) ? $this->plugin->get_name( $id ) : $_POST[ 'name' ];
+		$id       = ( int ) $_POST[ 'pid' ];
+		$name     = empty( $_POST[ 'name' ] )
+			? $this->plugin->get_name( $id )
+			: $_POST[ 'name' ];
 		$existing = $this->plugin->get_code( $id );
-
 		$block = array();
 		$block[ 'code' ] = $_POST[ 'code' ];
 		$block[ 'lang' ] = trim( $_POST[ 'lang' ] );

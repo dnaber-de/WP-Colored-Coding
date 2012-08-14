@@ -506,6 +506,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 					$name .= '-1';
 				}
 			}
+
 			return $name;
 		}
 
