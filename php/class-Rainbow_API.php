@@ -117,17 +117,23 @@ class Rainbow_API {
 		 * use 'slug' for internal references
 		 */
 		$default_languages = array (
-			'c'          => 'C',
-			'php'        => 'PHP',
-			'css'        => 'CSS',
-			'html'       => 'HTML',
-			'ruby'       => 'Ruby',
-			'shell'      => 'Shell',
-			'python'     => 'Python',
-			'javascript' => 'Javascript',
-			'lua'        => 'Lua',
-			'csharp'     => 'C#',
-			'sheme'      => 'Basic Sheme'
+			'c'            => 'C',
+			'php'          => 'PHP',
+			'css'          => 'CSS',
+			'html'         => 'HTML',
+			'ruby'         => 'Ruby',
+			'shell'        => 'Shell',
+			'python'       => 'Python',
+			'javascript'   => 'Javascript',
+			'lua'          => 'Lua',
+			'csharp'       => 'C#',
+			'sheme'        => 'Basic Sheme',
+			'r'            => 'R',
+			'coffeescript' => 'Coffeescript',
+			'go'           => 'Go',
+			'smalltalk'    => 'Smalltalk',
+			'java'         => 'Java'
+
 		);
 
 		return array_merge( $lang, $default_languages );

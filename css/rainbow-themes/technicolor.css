@@ -87,7 +87,12 @@ pre code[data-language="ruby"]:before,
 pre code[data-language="shell"]:before,
 pre code[data-language="csharp"]:before,
 pre code[data-language="python"]:before,
-pre code[data-language="javascript"]:before {
+pre code[data-language="javascript"]:before,
+pre code[data-language="java"]:before,
+pre code[data-language="r"]:before,
+pre code[data-language="coffeescript"]:before,
+pre code[data-language="go"]:before,
+pre code[data-language="smalltalk"]:before {
 	float: right;
 	color: #ddd;
 	font-size: 2em;
@@ -132,5 +137,30 @@ pre code[data-language="python"]:before {
 
 pre code[data-language="javascript"]:before {
 	content: "Javascrip";
+	font-size: 1.5em;
+}
+
+pre code[data-language="java"]:before {
+	content: "Java";
+	font-size: 1.5em;
+}
+
+pre code[data-language="r"]:before {
+	content: "R";
+	font-size: 1.5em;
+}
+
+pre code[data-language="coffeescript"]:before {
+	content: "Coffeescript";
+	font-size: 1.5em;
+}
+
+pre code[data-language="go"]:before {
+	content: "Go";
+	font-size: 1.5em;
+}
+
+pre code[data-language="smalltalk"]:before {
+	content: "Smalltalk";
 	font-size: 1.5em;
 }
