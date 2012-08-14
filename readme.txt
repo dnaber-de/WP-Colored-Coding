@@ -3,7 +3,7 @@ Contributors: dnaber-de
 Tags: syntax highlighting, rainbow.js, code samples
 Requires at least: 3.3
 Tested up to: 3.4.1
-Stable tag: 1.1
+Stable tag: 1.1.0
 License: Apache 2.0
 License URI: http://www.apache.org/licenses/LICENSE-2.0
 
