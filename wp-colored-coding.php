@@ -4,7 +4,7 @@
  * Plugin URI:  http://dnaber.de/blog/2012/wordpress-plugin-colored-coding/
  * Author:      David Naber
  * Author URI:  http://dnaber.de/
- * Version:     1.1.0
+ * Version:     1.2
  * Description: Managing Codeblocks independent from the WP Texteditor and use Rainbow.js for syntax highlighting.
  * Textdomain:  wp-cc
  * License:     Apache 2.0
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 *
 		 * @cons string
 		 */
-		const VERSION = '1.1.0';
+		const VERSION = '1.2';
 
 		/**
 		 * instance
@@ -186,6 +186,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		/**
 		 * provide access to the plugin Object to remove hooks
 		 *
+		 * @since 1.2
 		 * @return WP_Colored_Coding
 		 */
 		public static function get_instance() {

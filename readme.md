@@ -120,13 +120,18 @@ If you deactivate the plugin all settings and codes will be preserved. On uninst
 
 ## Changelog
 
-### 1.0.0
-* initial release
+### 1.2
+* fixed a bug of the unfiltered output option
+* better readme.txt for wordpress.org
+
+### 1.1 
+* spanish language files
+* rainbow support for Go, R, Coffeescript, Java, Smalltalk
 
 ### 1.0.1
 * bugfix
 * Theme Technicolor updated
 
-### 1.1 
-* spanish language files
-* rainbow support for Go, R, Coffeescript, Java, Smalltalk
+### 1.0
+* initial release
+

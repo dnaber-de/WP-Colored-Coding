@@ -3,7 +3,7 @@ Contributors: dnaber-de
 Tags: syntax highlighting, rainbow.js, code samples
 Requires at least: 3.3
 Tested up to: 3.4.2
-Stable tag: 1.1.0
+Stable tag: 1.2
 License: Apache 2.0
 License URI: http://www.apache.org/licenses/LICENSE-2.0
 
@@ -148,6 +148,10 @@ None so far. If you have any questions feel free to [contact](http://dnaber.de/k
 
 
 == Changelog ==
+
+= 1.2.0 =
+* fixed a bug of the unfiltered output option
+* better readme.txt for wordpress.org
 
 = 1.1.0 =
 * spanish language files
