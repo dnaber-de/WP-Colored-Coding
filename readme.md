@@ -16,17 +16,23 @@ This option enables an additional checkbox for each codeblock of a post which al
 A single Codeblock is identified (in the posts context) by its name. If you don't want to specify a name for each block, leave it empty, it will be generated automatically.
 
 The language field is also optional. To use syntax highlighting, write in a rainbow supported language. (It will give you suggestions.) Currently these are
-* c
-* csharp
-* css
-* javascript
-* lua
-* python
-* ruby
-* shell
-* sheme
+* C
+* Coffeescript
+* C#
+* CSS
+* Go
+* HTML
+* Java
+* JavaScript
+* Lua
+* PHP
+* Python
+* R
+* Ruby
+* Shell
+* Smalltalk
 
-Each codeblock can be placed anywhere in the text by using the shortcode [cc name="{name}"]. You can use the TinyMCE button »CC« for that.
+Each codeblock can be placed anywhere in the text by using the shortcode `[cc name="{name}"]`. You can use the TinyMCE button »CC« for that.
 
 ### Shortcode (in-text code)
 For just a few lines of code you may want to use the shortcode like this:

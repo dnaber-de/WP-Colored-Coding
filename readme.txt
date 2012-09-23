@@ -2,17 +2,29 @@
 Contributors: dnaber-de
 Tags: syntax highlighting, rainbow.js, code samples
 Requires at least: 3.3
-Tested up to: 3.4.1
+Tested up to: 3.4.2
 Stable tag: 1.1.0
 License: Apache 2.0
 License URI: http://www.apache.org/licenses/LICENSE-2.0
 
-Syntax highlighting widht Rainbow.js.
+Syntax highlighting with Rainbow.js.
 
 == Description ==
 
 Brings the cool Javascript syntax highlighter [Rainbow.js](https://github.com/ccampbell/rainbow) to your Wordpress-Blog and allows you to manage code snippets independend from the text editor.
 
+= Quick Start =
+1. Download the plugin from this page
+1. Follow the instructions on the [Wordpress Codex](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation) to install the plugin.
+By default, the plugin is ready for use after activation. Some options can be changed on Settings → Writing.
+
+For a detailed usage manual refer to the  [Usage section](http://wordpress.org/extend/plugins/wp-colored-coding/other_notes/#usage), or – better than a thousand words – to the [screenshots](http://wordpress.org/extend/plugins/wp-colored-coding/screenshots/).
+
+If you want to change the behaviour of the plugin see the [API-Documentation](http://wordpress.org/extend/plugins/wp-colored-coding/other_notes/#API)
+
+![Screenshot 1](http://wordpress.org/extend/plugins/wp-colored-coding/assets/screenshot-1.png)
+![Screenshot 2](http://wordpress.org/extend/plugins/wp-colored-coding/assets/screenshot-2.png)
+![Screenshot 3](http://wordpress.org/extend/plugins/wp-colored-coding/assets/screenshot-3.png)
 == Installation ==
 Just [download](https://github.com/dnaber-de/WP-Colored-Coding/downloads) the latest tag and follow the instructions on the [Wordpress Codex](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
@@ -28,17 +40,23 @@ This option enables an additional checkbox for each codeblock of a post which al
 A single Codeblock is identified (in the posts context) by its name. If you don't want to specify a name for each block, leave it empty, it will be generated automatically.
 
 The language field is also optional. To use syntax highlighting, write in a rainbow supported language. (It will give you suggestions.) Currently these are
-* c
-* csharp
-* css
-* javascript
-* lua
-* python
-* ruby
-* shell
-* sheme
+* C
+* Coffeescript
+* C#
+* CSS
+* Go
+* HTML
+* Java
+* JavaScript
+* Lua
+* PHP
+* Python
+* R
+* Ruby
+* Shell
+* Smalltalk
 
-Each codeblock can be placed anywhere in the text by using the shortcode [cc name="{name}"]. You can use the TinyMCE button »CC« for that.
+Each codeblock can be placed anywhere in the text by using the shortcode `[cc name="{name}"]`. You can use the TinyMCE button »CC« for that.
 
 = Shortcode (in-text code) =
 For just a few lines of code you may want to use the shortcode like this:
@@ -124,16 +142,22 @@ If you deactivate the plugin all settings and codes will be preserved. On uninst
 2. TinyMCE popup to build and insert shortcode into the text editor.
 3. WP Colored Coding settings section.
 
+== Frequently Asked Questions ==
+= Are there any frequently asked questions? =
+None so far. If you have any questions feel free to [contact](http://dnaber.de/kontakt) me (english, german) or use the [support forum](http://wordpress.org/support/plugin/wp-colored-coding) on wordpress.org.
+
 
 == Changelog ==
 
-= 1.0.0 =
-* initial release
+= 1.1.0 =
+* spanish language files
+* rainbow support for Go, R, Coffeescript, Java, Smalltalk
 
 = 1.0.1 =
 * bugfix
 * Theme Technicolor updated
 
-= 1.1 =
-* spanish language files
-* rainbow support for Go, R, Coffeescript, Java, Smalltalk
+= 1.0.0 =
+* initial release
+
+
