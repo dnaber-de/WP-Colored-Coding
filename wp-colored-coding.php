@@ -356,7 +356,6 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$lang = '';
 			$print_raw  = FALSE;
-
 			/**
 			 * print codeblock
 			 */
@@ -368,8 +367,8 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 				$codeblock = $code[ $attr[ 'name' ] ];
 				$lang      = $codeblock[ 'lang' ];
-				if ( isset( $code[ 'raw' ] )
-				  && '1' === $code[ 'raw' ]
+				if ( isset( $codeblock[ 'raw' ] )
+				  && '1' === $codeblock[ 'raw' ]
 				  && '1' === $this->options[ 'enable_raw_output_option' ]
 				) {
 					$content   = $codeblock[ 'code' ];
@@ -389,26 +388,28 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			}
 
 			$class   = empty( $lang ) ? 'wp-cc' : 'wp-cc wp-cc-' . $lang;
-			$wrapper = '<div class="' . $class . '">%s</div>';
+			$wrapper =
+				  '<div class="' . $class . '">'
+					. '<pre>'
+						. '<code'
+						. ( ! empty( $lang )
+								? ' data-language="' . $lang . '"'
+								: ''
+						  )
+						. '>'
+							.'%s'
+						.'</code>'
+					. '</pre>'
+				. '</div>';
 			$wrapper = apply_filters( 'wp_cc_markup_wrapper', $wrapper, $lang );
 
 			if ( '1' === $this->options[ 'use_syntax_highlighting' ] && ! $print_raw )
 				$this->enqueue_scripts( $lang );
 
-			$print =
-				  '<pre>'
-				. '<code'
-				. ( ! empty( $lang )
-						? ' data-language="' . $lang . '"'
-						: ''
-				  )
-				. '>'
-				. $content
-				. '</code></pre>';
+			if ( $print_raw )
+				return $content;
 
-			global $shortcode_tags;
-
-			return sprintf( $wrapper, $print );
+			return sprintf( $wrapper, $content );
 		}
 
 		/**
