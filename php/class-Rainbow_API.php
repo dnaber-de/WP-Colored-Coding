@@ -118,22 +118,21 @@ class Rainbow_API {
 		 */
 		$default_languages = array (
 			'c'            => 'C',
-			'php'          => 'PHP',
+			'coffeescript' => 'Coffeescript',
+			'csharp'       => 'C#',
 			'css'          => 'CSS',
+			'go'           => 'Go',
 			'html'         => 'HTML',
+			'java'         => 'Java',
+			'javascript'   => 'JavaScript',
+			'lua'          => 'Lua',
+			'php'          => 'PHP',
+			'python'       => 'Python',
+			'r'            => 'R',
 			'ruby'         => 'Ruby',
 			'shell'        => 'Shell',
-			'python'       => 'Python',
-			'javascript'   => 'Javascript',
-			'lua'          => 'Lua',
-			'csharp'       => 'C#',
 			'sheme'        => 'Basic Sheme',
-			'r'            => 'R',
-			'coffeescript' => 'Coffeescript',
-			'go'           => 'Go',
-			'smalltalk'    => 'Smalltalk',
-			'java'         => 'Java'
-
+			'smalltalk'    => 'Smalltalk'
 		);
 
 		return array_merge( $lang, $default_languages );
