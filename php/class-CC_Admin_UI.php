@@ -40,6 +40,9 @@ class CC_Admin_UI {
 		$this->plugin = $plugin;
 		$this->settings_section = $this->plugin->option_key . '_section';
 
+		/**
+		 * note for developers: get access of '$this' via WP_Colored_Coding::get_admin_ui()
+		 */
 		add_action( 'admin_init',            array( $this, 'settings' ) );
 		add_action( 'add_meta_boxes',        array( $this, 'meta_boxes' ) );
 		add_action( 'save_post',             array( $this, 'update_codeblocks' ) );

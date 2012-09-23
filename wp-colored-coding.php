@@ -37,7 +37,7 @@ if ( ! function_exists( 'add_filter' ) )
 
 if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
-	add_action( 'init', array( 'WP_Colored_Coding', 'init' ), 11 );
+	add_action( 'plugins_loaded', array( 'WP_Colored_Coding', 'init' ), 10 );
 	register_uninstall_hook( __FILE__, array( 'WP_Colored_Coding', 'unistall' ) );
 
 	class WP_Colored_Coding {
@@ -48,6 +48,13 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 * @cons string
 		 */
 		const VERSION = '1.1.0';
+
+		/**
+		 * instance
+		 *
+		 * @var WP_Colored_Coding
+		 */
+		private static $instance = NULL;
 
 		/**
 		 * filesystem path tho the plugin directory
@@ -173,7 +180,20 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			load_plugin_textdomain( 'wp-cc', FALSE, basename( dirname( __FILE__ ) ) . '/lang' );
 
-			new self( TRUE );
+			self::get_instance();
+		}
+
+		/**
+		 * provide access to the plugin Object to remove hooks
+		 *
+		 * @return WP_Colored_Coding
+		 */
+		public static function get_instance() {
+
+			if ( ! self::$instance instanceof self )
+				self::$instance = new self( TRUE );
+
+			return self::$instance;
 		}
 
 		/**
@@ -545,6 +565,16 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		public function get_langs() {
 
 			return $this->langs;
+		}
+
+		/**
+		 * get the admin_ui object
+		 *
+		 * @return CC_Admin_UI
+		 */
+		public function get_admin_ui() {
+
+			return $this->admin_ui;
 		}
 
 		/**
