@@ -40,6 +40,9 @@ class CC_Admin_UI {
 		$this->plugin = $plugin;
 		$this->settings_section = $this->plugin->option_key . '_section';
 
+		/**
+		 * note for developers: get access of '$this' via WP_Colored_Coding::get_admin_ui()
+		 */
 		add_action( 'admin_init',            array( $this, 'settings' ) );
 		add_action( 'add_meta_boxes',        array( $this, 'meta_boxes' ) );
 		add_action( 'save_post',             array( $this, 'update_codeblocks' ) );
@@ -51,7 +54,6 @@ class CC_Admin_UI {
 		add_action( 'wp_ajax_wp_cc_update_dialog_option', array( $this, 'get_code_dropdown' ) );
 
 		# tinymce dialog
-
 		if (
 			(    current_user_can( 'edit_posts' )
 			  || current_user_can( 'edit_pages' )
@@ -110,7 +112,9 @@ class CC_Admin_UI {
 			'wpCcGlobals',
 			array(
 				'AjaxUrl'             => admin_url( 'admin-ajax.php' ),
-				'PostID'              => ( 'post.php' == $pagenow ) ? get_the_ID() : NULL,
+				'PostID'              => ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) )
+					? get_the_ID()
+					: NULL,
 				'NonceFieldId'        => 'wp-cc-nonce',
 				'UpdateBlock'         => 'wp_cc_update_block',
 				'NewBlockAction'      => 'wp_cc_new_block',
@@ -180,15 +184,16 @@ class CC_Admin_UI {
 	 */
 	public function single_codeblock( $values = array() ) {
 
-		$options = $this->plugin->get_options();
-		$ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+		$options  = $this->plugin->get_options();
+		$ajax     = defined( 'DOING_AJAX' ) && DOING_AJAX;
 		$defaults = array(
 			'name' => '',
 			'code' => '',
-			'lang' => ''
+			'lang' => '',
+			'raw'  => '0'
 		);
-		$ns = uniqid( '' );
-		$v = wp_parse_args( $values, $defaults );
+		$ns    = uniqid( '' );
+		$v     = wp_parse_args( $values, $defaults );
 		$langs = $this->plugin->get_langs();
 		asort( $langs );
 
@@ -297,7 +302,11 @@ class CC_Admin_UI {
 				$b[ 'name' ] = $this->plugin->get_name( $post_id, count( $blocks ) );
 			# post-meta api serializes (bool) TRUE to (string) '1' so we take the string for true/false data
 			$raw = isset( $b[ 'raw' ] ) && '1' === $b[ 'raw' ] ? '1' : '0';
-			$blocks[ $b[ 'name' ] ] = array( 'code' => $b[ 'code' ], 'lang' => $b[ 'lang' ], 'raw' => $raw );
+			$blocks[ $b[ 'name' ] ] = array(
+				'code' => $b[ 'code' ],
+				'lang' => trim( $b[ 'lang' ] ),
+				'raw' => $raw
+			);
 		}
 		$this->plugin->set_code_blocks( $post_id, $blocks );
 		$this->plugin->update_codeblocks();
@@ -322,13 +331,14 @@ class CC_Admin_UI {
 			'deleted' => FALSE,
 			'updated' => FALSE
 		);
-		$id = ( int ) $_POST[ 'pid' ];
-		$name = empty( $_POST[ 'name' ] ) ? $this->plugin->get_name( $id ) : $_POST[ 'name' ];
+		$id       = ( int ) $_POST[ 'pid' ];
+		$name     = empty( $_POST[ 'name' ] )
+			? $this->plugin->get_name( $id )
+			: $_POST[ 'name' ];
 		$existing = $this->plugin->get_code( $id );
-
 		$block = array();
 		$block[ 'code' ] = $_POST[ 'code' ];
-		$block[ 'lang' ] = $_POST[ 'lang' ];
+		$block[ 'lang' ] = trim( $_POST[ 'lang' ] );
 		# post-meta api serializes (bool) TRUE to (string) '1' so we use a string
 		$block[ 'raw' ]  = isset( $_POST[ 'raw' ] ) && '1' === $_POST[ 'raw' ] ? '1' : '0';
 
@@ -344,6 +354,7 @@ class CC_Admin_UI {
 			$return[ 'name' ] = $name;
 
 		echo json_encode( $return );
+
 		exit;
 	}
 
@@ -606,9 +617,9 @@ class CC_Admin_UI {
 		if ( $ajax ) {
 			$name = $_POST[ 'name' ];
 			$pid  = $_POST[ 'pid' ];
-		}
-		else
+		} else {
 			$pid = get_the_ID();
+		}
 
 		if ( empty( $id ) )
 			$id = $name;

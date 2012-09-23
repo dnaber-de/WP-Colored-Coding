@@ -7,9 +7,9 @@
  * @since 0.1
  */
 
-add_filter( 'wp_cc_rainbow_themes',    array( 'Rainbow_API', 'themes' ) );
-add_filter( 'wp_cc_rainbow_scripts',   array( 'Rainbow_API', 'scripts' ) );
-add_filter( 'wp_cc_rainbow_languages', array( 'Rainbow_API', 'languages' ) );
+add_filter( 'wp_cc_rainbow_themes',    array( 'Rainbow_API', 'themes' ),    9, 1 );
+add_filter( 'wp_cc_rainbow_scripts',   array( 'Rainbow_API', 'scripts' ),   9, 1 );
+add_filter( 'wp_cc_rainbow_languages', array( 'Rainbow_API', 'languages' ), 9, 1 );
 
 class Rainbow_API {
 
@@ -89,6 +89,12 @@ class Rainbow_API {
 				array(
 					'src'  => 'sunburst.css',
 					'name' => 'Sunburst'
+					),
+
+			'technicolor' =>
+				array(
+					'src'  => 'technicolor.css',
+					'name' => 'Technicolor'
 					)
 
 		);
@@ -111,17 +117,22 @@ class Rainbow_API {
 		 * use 'slug' for internal references
 		 */
 		$default_languages = array (
-			'c'          => 'C',
-			'php'        => 'PHP',
-			'css'        => 'CSS',
-			'html'       => 'HTML',
-			'ruby'       => 'Ruby',
-			'shell'      => 'Shell',
-			'phyton'     => 'Python',
-			'javascript' => 'Javascript',
-			'lua'        => 'Lua',
-			'csharp'     => 'C#',
-			'sheme'      => 'Sheme'
+			'c'            => 'C',
+			'coffeescript' => 'Coffeescript',
+			'csharp'       => 'C#',
+			'css'          => 'CSS',
+			'go'           => 'Go',
+			'html'         => 'HTML',
+			'java'         => 'Java',
+			'javascript'   => 'JavaScript',
+			'lua'          => 'Lua',
+			'php'          => 'PHP',
+			'python'       => 'Python',
+			'r'            => 'R',
+			'ruby'         => 'Ruby',
+			'shell'        => 'Shell',
+			'sheme'        => 'Basic Sheme',
+			'smalltalk'    => 'Smalltalk'
 		);
 
 		return array_merge( $lang, $default_languages );
@@ -143,9 +154,9 @@ class Rainbow_API {
 			 *
 			'rainbow_my_language' =>
 				array(
-					'src'       => {SRC},
-					'depts      => array( 'rainbow' ),
-					'lang'      => 'my_language', # use the 'slug'
+					'src'       => '{SRC}',
+					'depts'     => array( 'rainbow' ),
+					'lang'      => 'my_language', # use as 'slug'
 					'in_footer' => TRUE # this must be equal with the script it depends on
 				),
 			*/

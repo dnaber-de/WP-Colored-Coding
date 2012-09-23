@@ -19,99 +19,114 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: php/class-CC_Admin_UI.php:117
-#: php/class-CC_Admin_UI.php:123
+#: php/class-CC_Admin_UI.php:132
+#: php/class-CC_Admin_UI.php:138
 #@ wp-cc
 msgid "Code Blocks"
 msgstr "Codeschnipsel"
 
-#: php/class-CC_Admin_UI.php:142
+#: php/class-CC_Admin_UI.php:157
 #@ wp-cc
 msgid "To delete a codeblock just leave the textarea(code) empty and update."
 msgstr "Um ein Codeschnipsel zu löschen, einfach ein leeres Eingabefeld (Code) absenen."
 
-#: php/class-CC_Admin_UI.php:152
+#: php/class-CC_Admin_UI.php:167
 #@ wp-cc
 msgid "Give me the next block"
 msgstr "Ein leeres Schnipsel, bitte."
 
-#: php/class-CC_Admin_UI.php:189
+#: php/class-CC_Admin_UI.php:205
 #@ wp-cc
 msgid "Name"
 msgstr "Bezeichner"
 
-#: php/class-CC_Admin_UI.php:196
+#: php/class-CC_Admin_UI.php:212
 #@ wp-cc
 msgid "Use within the Shortcode [cc name=\"\"]"
 msgstr "Wird im Shortcode verwendet [cc name=\"\"]"
 
-#: php/class-CC_Admin_UI.php:203
+#: php/class-CC_Admin_UI.php:219
 #@ wp-cc
 msgid "Language"
 msgstr "Sprache"
 
-#: php/class-CC_Admin_UI.php:210
+#: php/class-CC_Admin_UI.php:226
 #@ wp-cc
 msgid "Leave empty for no syntax highlighting"
 msgstr "Leer lassen um kein Highlighting zu nutzen"
 
-#: php/class-CC_Admin_UI.php:229
+#: php/class-CC_Admin_UI.php:245
 #@ wp-cc
 msgid "Raw HTML Code (Note! This will print the plain Code without any escaping filters)"
 msgstr "Ungefiltertes HTML (Achtung! Alles was drin steht, wird auch ausgeführt)"
 
-#: php/class-CC_Admin_UI.php:236
+#: php/class-CC_Admin_UI.php:252
 #@ wp-cc
 msgid "Insert Tab"
 msgstr "Tab einfügen"
 
-#: php/class-CC_Admin_UI.php:241
+#: php/class-CC_Admin_UI.php:257
 #@ wp-cc
 msgid "Code"
 msgstr "Code"
 
-#: php/class-CC_Admin_UI.php:248
+#: php/class-CC_Admin_UI.php:264
 #@ wp-cc
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: php/class-CC_Admin_UI.php:350
+#: php/class-CC_Admin_UI.php:366
 #@ wp-cc
 msgid "WP Colored Coding settings"
 msgstr "WP Colored Coding Einstellungen"
 
-#: php/class-CC_Admin_UI.php:358
+#: php/class-CC_Admin_UI.php:374
 #@ wp-cc
 msgid "Use syntax highlighting?"
 msgstr "Syntax-highlighting verwenden?"
 
-#: php/class-CC_Admin_UI.php:376
+#: php/class-CC_Admin_UI.php:392
 #@ wp-cc
 msgid "Syntax highlighting theme"
 msgstr "Welches Theme?"
 
-#: php/class-CC_Admin_UI.php:391
+#: php/class-CC_Admin_UI.php:407
 #@ wp-cc
 msgid "Enable the raw output option?"
 msgstr "Option für ungefiltertes HTML aktivieren?"
 
-#: php/class-CC_Admin_UI.php:399
+#: php/class-CC_Admin_UI.php:415
 #@ wp-cc
 msgid "Provide an option on each codeblock to print it as raw HTML/Javascript instead of escaping it."
 msgstr "Ermöglicht für jedes Codeschnipsel, es als reines HTML (ohne Filter) auszugeben."
 
-#: php/class-CC_Admin_UI.php:413
+#: php/class-CC_Admin_UI.php:429
 #@ wp-cc
 msgid "If you want to use syntax highlighting via rainbow.js, just enable it and choose a theme."
 msgstr "Wenn Du Rainbow.js zur optischen Gestaltung (Syntax-Highlighting) nutzen willst, setze die Option und wähle ein Theme."
 
-#: php/class-CC_Admin_UI.php:552
+#: php/class-CC_Admin_UI.php:568
 #@ wp-cc
 msgid "Available Codeblocks"
 msgstr "Verfügbare Codeschnipsel"
 
-#: php/class-CC_Admin_UI.php:556
+#: php/class-CC_Admin_UI.php:577
 #@ wp-cc
 msgid "Insert Shortcode"
 msgstr "Shortcode einfügen"
+
+#: php/class-CC_Admin_UI.php:567
+#@ wp-cc
+msgid "Insert a Codeblock"
+msgstr "Füge ein Codeschnipsel ein"
+
+#: php/class-CC_Admin_UI.php:572
+#@ wp-cc
+msgid "or write your code into the editor"
+msgstr "oder schreibe den Code direkt in den Editor"
+
+#: php/class-CC_Admin_UI.php:573
+#@ wp-cc
+msgid "Languages supported by Rainbow.js"
+msgstr "Unterstützte Sprachen"
 

@@ -1,12 +1,35 @@
 <?php
 /**
  * Plugin Name: WP Colored Coding
- * Plugin URI:  http://dnaber.de/
+ * Plugin URI:  http://dnaber.de/blog/2012/wordpress-plugin-colored-coding/
  * Author:      David Naber
  * Author URI:  http://dnaber.de/
- * Version:     0.1
+ * Version:     1.2
  * Description: Managing Codeblocks independent from the WP Texteditor and use Rainbow.js for syntax highlighting.
  * Textdomain:  wp-cc
+ * License:     Apache 2.0
+ * License URI: http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Copyright 2012 David Naber
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * This package distributes a copy of Rainbow.js
+ * which is also licensed under the Apache License, Version 2.0
+ *
+ * Copyright 2012 Craig Campbell
+ *
+ * see js/rainbow/LICENSE for more information
  */
 
 if ( ! function_exists( 'add_filter' ) )
@@ -14,7 +37,8 @@ if ( ! function_exists( 'add_filter' ) )
 
 if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
-	add_action( 'init', array( 'WP_Colored_Coding', 'init' ) );
+	add_action( 'plugins_loaded', array( 'WP_Colored_Coding', 'init' ), 10 );
+	register_uninstall_hook( __FILE__, array( 'WP_Colored_Coding', 'unistall' ) );
 
 	class WP_Colored_Coding {
 
@@ -23,7 +47,14 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 *
 		 * @cons string
 		 */
-		const VERSION = '0.1';
+		const VERSION = '1.2';
+
+		/**
+		 * instance
+		 *
+		 * @var WP_Colored_Coding
+		 */
+		private static $instance = NULL;
 
 		/**
 		 * filesystem path tho the plugin directory
@@ -32,7 +63,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 * @static
 		 * @var string
 		 */
-		public static $path = '';
+		public static $dir = '';
 
 		/**
 		 * URI to the plugin directory
@@ -51,7 +82,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 * @var array
 		 */
 		protected static $default_options = array(
-			'rainbow_theme'            => 'all-hallows-eve',
+			'rainbow_theme'            => 'technicolor',
 			'use_syntax_highlighting'  => '1',
 			'enable_raw_output_option' => '0'
 		);
@@ -138,18 +169,32 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 */
 		public static function init() {
 
-			self::$path = plugin_dir_path( __FILE__ );
+			self::$dir = plugin_dir_path( __FILE__ );
 			self::$uri  = plugins_url( '', __FILE__ );
 
 			if ( class_exists( 'CC_Admin_UI' ) )
 				return;
 
-			require_once self::$path . '/php/class-CC_Admin_UI.php';
-			require_once self::$path . '/php/class-Rainbow_API.php';
+			require_once self::$dir . '/php/class-CC_Admin_UI.php';
+			require_once self::$dir . '/php/class-Rainbow_API.php';
 
 			load_plugin_textdomain( 'wp-cc', FALSE, basename( dirname( __FILE__ ) ) . '/lang' );
 
-			new self( TRUE );
+			self::get_instance();
+		}
+
+		/**
+		 * provide access to the plugin Object to remove hooks
+		 *
+		 * @since 1.2
+		 * @return WP_Colored_Coding
+		 */
+		public static function get_instance() {
+
+			if ( ! self::$instance instanceof self )
+				self::$instance = new self( TRUE );
+
+			return self::$instance;
 		}
 
 		/**
@@ -168,9 +213,6 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$this->load_options();
 
-			# settings and admin interfaces
-			$this->admin_ui = new CC_Admin_UI( $this );
-
 			/**
 			 * rainbow.js themes and supported languages
 			 * @see Rainbow_API
@@ -179,13 +221,19 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			$this->langs   = apply_filters( 'wp_cc_rainbow_languages', array() );
 			$this->scripts = apply_filters( 'wp_cc_rainbow_scripts',   array() );
 
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
-			add_shortcode( 'cc', array( $this, 'cc_block_shortcode' ) );
-			/**
-			 * apply do_shortcode() before wpautop() to 'the_content' only for
-			 * the 'cc' shortcode
-			 */
-			add_filter( 'the_content', array( $this, 'bypass_shortcodes' ), 5 );
+			if ( $hook_in ) {
+
+				# settings and admin interfaces
+				$this->admin_ui = new CC_Admin_UI( $this );
+
+				add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
+				add_shortcode( 'cc', array( $this, 'cc_block_shortcode' ) );
+				/**
+				 * apply do_shortcode() before wpautop() to 'the_content' only for
+				 * the 'cc' shortcode
+				 */
+				add_filter( 'the_content', array( $this, 'bypass_shortcodes' ), 5 );
+			}
 		}
 
 		/**
@@ -224,7 +272,6 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			global $shortcode_tags;
 
 			$shortcode_tags = $this->global_shortcodes;
-			remove_shortcode( 'cc' );
 		}
 
 		/**
@@ -239,7 +286,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			foreach ( $this->themes as $handle => $t ) {
 				$css_src = '.' == dirname( $t[ 'src' ] )
 					? self::$uri . '/css/rainbow-themes/' . $t[ 'src' ] #internal styles
-					: $t[ 'scr' ]; #external styles (@see Rainbow_API::themes())
+					: $t[ 'src' ]; #external styles (@see Rainbow_API::themes())
 
 				wp_register_style(
 					$handle,
@@ -286,10 +333,11 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 				}
 				return;
 			}
+
 			if ( ! empty( $lang ) ) {
 				foreach ( $this->scripts as $handle => $args ) {
 					if ( $lang === $args[ 'lang' ] && ! in_array( $handle, $queue ) ) {
-						wp_enqueue_scripts( $handle );
+						wp_enqueue_script( $handle );
 						return; # all others should handle with the dependencies array
 					}
 				}
@@ -329,7 +377,6 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$lang = '';
 			$print_raw  = FALSE;
-
 			/**
 			 * print codeblock
 			 */
@@ -341,15 +388,15 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 				$codeblock = $code[ $attr[ 'name' ] ];
 				$lang      = $codeblock[ 'lang' ];
-				if ( isset( $code[ 'raw' ] )
-				  && '1' === $code[ 'raw' ]
+				if ( isset( $codeblock[ 'raw' ] )
+				  && '1' === $codeblock[ 'raw' ]
 				  && '1' === $this->options[ 'enable_raw_output_option' ]
 				) {
 					$content   = $codeblock[ 'code' ];
 					$print_raw = TRUE;
-				}
-				else
+				} else {
 					$content = esc_attr( $codeblock[ 'code' ] );
+				}
 			}
 			/**
 			 * print enclosed content as code
@@ -357,32 +404,33 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 			elseif ( ! empty( $content ) ) {
 
 				$lang    = esc_attr( $attr[ 'lang' ] );
+				$content = preg_replace( "~^(\r\n|\n)~", '', $content );
 				$content = esc_attr( $content );
 			}
 
 			$class   = empty( $lang ) ? 'wp-cc' : 'wp-cc wp-cc-' . $lang;
-			$wrapper = '<div class="' . $class . '">%s</div>';
+			$wrapper =
+				  '<div class="' . $class . '">'
+					. '<pre>'
+						. '<code'
+						. ( ! empty( $lang )
+								? ' data-language="' . $lang . '"'
+								: ''
+						  )
+						. '>'
+							.'%s'
+						.'</code>'
+					. '</pre>'
+				. '</div>';
 			$wrapper = apply_filters( 'wp_cc_markup_wrapper', $wrapper, $lang );
 
 			if ( '1' === $this->options[ 'use_syntax_highlighting' ] && ! $print_raw )
 				$this->enqueue_scripts( $lang );
 
-			$print =
-				  '<pre>'
-				. '<code'
-				. ( ! empty( $lang )
-						? ' data-language="' . $lang . '"'
-						: ''
-				  )
-				. '>'
-				. $content
-				. '</code></pre>';
+			if ( $print_raw )
+				return $content;
 
-			global $shortcode_tags;
-			#echo '<pre>'; var_dump( $shortcode_tags );
-			#echo '<pre>'; var_dump( $GLOBALS[ 'wp_filter' ][ 'the_content' ] );
-
-			return sprintf( $wrapper, $print );
+			return sprintf( $wrapper, $content );
 		}
 
 		/**
@@ -450,10 +498,15 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			foreach ( $this->codeblocks as $id => $code ) {
 
-				if ( empty( $code ) )
-					delete_post_meta( $id, $this->meta_key );
-				else
+				foreach ( $code as $key => $single ) {
+					if ( '' == trim( $single[ 'code' ] ) )
+						unset( $code[ $key ] );
+				}
+				if ( ! empty( $code ) )
 					update_post_meta( $id, $this->meta_key, $code );
+				else
+					delete_post_meta( $id, $this->meta_key );
+
 			}
 		}
 
@@ -475,6 +528,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 					$name .= '-1';
 				}
 			}
+
 			return $name;
 		}
 
@@ -515,6 +569,16 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		}
 
 		/**
+		 * get the admin_ui object
+		 *
+		 * @return CC_Admin_UI
+		 */
+		public function get_admin_ui() {
+
+			return $this->admin_ui;
+		}
+
+		/**
 		 * load options
 		 *
 		 * @access protected
@@ -525,5 +589,53 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 
 			$this->options = get_option( $this->option_key, self::$default_options );
 		}
+
+		/**
+		 * clean up on uninstallation
+		 *
+		 * @access public
+		 * @static
+		 * @global $wpdb
+		 * @global $blog_id
+		 * @return void
+		 */
+		public static function unistall() {
+			global $wpdb;
+
+			$plugin = new self;
+			ignore_user_abort( -1 );
+
+			if ( is_network_admin() && isset( $wpdb->blogs ) ) {
+				$blogs = $wpdb->get_results(
+					'SELECT blog_id FROM ' .
+						$wpdb->blogs,
+					ARRAY_A
+				);
+				foreach ( $blogs as $key => $row ) {
+					$id = ( int ) $row[ 'blog_id' ];
+					switch_to_blog( $id );
+					delete_option( $plugin->option_key );
+					$wpdb->query(
+						'DELETE FROM ' .
+							$wpdb->postmeta . ' ' .
+						'WHERE ' .
+							$wpdb->postmeta . ".meta_key = '" . $plugin->meta_key . "'"
+					);
+					restore_current_blog();
+				}
+
+				return;
+			}
+
+			delete_option( $plugin->option_key );
+			$wpdb->query(
+				'DELETE FROM ' .
+					$wpdb->postmeta . ' ' .
+				'WHERE ' .
+					$wpdb->postmeta . ".meta_key = '" . $plugin->meta_key . "'"
+			);
+
+		}
+
 	} # end of class
 }
