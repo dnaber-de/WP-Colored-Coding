@@ -149,6 +149,10 @@ None so far. If you have any questions feel free to [contact](http://dnaber.de/k
 
 == Changelog ==
 
+= 1.2.0 =
+* fixed a bug of the unfiltered output option
+* better readme.txt for wordpress.org
+
 = 1.1.0 =
 * spanish language files
 * rainbow support for Go, R, Coffeescript, Java, Smalltalk
