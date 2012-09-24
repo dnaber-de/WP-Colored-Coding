@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Colored Coding v0.1\n"
+"Project-Id-Version: WP Colored Coding v1.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-06-12 10:20:24+0000\n"
+"PO-Revision-Date: 2012-09-23 16:42:56+0000\n"
 "Last-Translator: admin <s@ray.io>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,113 +19,113 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: php/class-CC_Admin_UI.php:132
-#: php/class-CC_Admin_UI.php:138
+#: php/class-CC_Admin_UI.php:136
+#: php/class-CC_Admin_UI.php:142
 #@ wp-cc
 msgid "Code Blocks"
 msgstr "代码"
 
-#: php/class-CC_Admin_UI.php:157
+#: php/class-CC_Admin_UI.php:161
 #@ wp-cc
 msgid "To delete a codeblock just leave the textarea(code) empty and update."
 msgstr "想要删除一段代码，清空 textarea／code 区域并选择更新即可。"
 
-#: php/class-CC_Admin_UI.php:167
+#: php/class-CC_Admin_UI.php:171
 #@ wp-cc
 msgid "Give me the next block"
 msgstr "下一段代码"
 
-#: php/class-CC_Admin_UI.php:205
+#: php/class-CC_Admin_UI.php:210
 #@ wp-cc
 msgid "Name"
 msgstr "名称"
 
-#: php/class-CC_Admin_UI.php:212
+#: php/class-CC_Admin_UI.php:217
 #@ wp-cc
 msgid "Use within the Shortcode [cc name=\"\"]"
 msgstr "在 [cc name=\"\"] 中使用"
 
-#: php/class-CC_Admin_UI.php:219
+#: php/class-CC_Admin_UI.php:224
 #@ wp-cc
 msgid "Language"
 msgstr "语言"
 
-#: php/class-CC_Admin_UI.php:226
+#: php/class-CC_Admin_UI.php:231
 #@ wp-cc
 msgid "Leave empty for no syntax highlighting"
 msgstr "留空则不高亮语法"
 
-#: php/class-CC_Admin_UI.php:245
+#: php/class-CC_Admin_UI.php:250
 #@ wp-cc
 msgid "Raw HTML Code (Note! This will print the plain Code without any escaping filters)"
 msgstr "原始 HTML 代码（注意：此项会直接输出原代码而不进行任何转义）"
 
-#: php/class-CC_Admin_UI.php:252
+#: php/class-CC_Admin_UI.php:257
 #@ wp-cc
 msgid "Insert Tab"
 msgstr "插入标签"
 
-#: php/class-CC_Admin_UI.php:257
+#: php/class-CC_Admin_UI.php:262
 #@ wp-cc
 msgid "Code"
 msgstr "代码"
 
-#: php/class-CC_Admin_UI.php:264
+#: php/class-CC_Admin_UI.php:269
 #@ wp-cc
 msgid "Update"
 msgstr "更新"
 
-#: php/class-CC_Admin_UI.php:366
+#: php/class-CC_Admin_UI.php:377
 #@ wp-cc
 msgid "WP Colored Coding settings"
 msgstr "WP Colored Coding 设置"
 
-#: php/class-CC_Admin_UI.php:374
+#: php/class-CC_Admin_UI.php:385
 #@ wp-cc
 msgid "Use syntax highlighting?"
 msgstr "开启语法高亮？"
 
-#: php/class-CC_Admin_UI.php:392
+#: php/class-CC_Admin_UI.php:403
 #@ wp-cc
 msgid "Syntax highlighting theme"
 msgstr "语法高亮主题"
 
-#: php/class-CC_Admin_UI.php:407
+#: php/class-CC_Admin_UI.php:418
 #@ wp-cc
 msgid "Enable the raw output option?"
 msgstr "开启原代码输出选项"
 
-#: php/class-CC_Admin_UI.php:415
+#: php/class-CC_Admin_UI.php:426
 #@ wp-cc
 msgid "Provide an option on each codeblock to print it as raw HTML/Javascript instead of escaping it."
-msgstr "提供选项让您在输出 HTML／Javascript 代码的时候不对原代码进行任何转义。"
+msgstr "勾选此选项让 WordPress 在输出 HTML／Javascript 代码时不对代码部分进行任何转义。"
 
-#: php/class-CC_Admin_UI.php:429
+#: php/class-CC_Admin_UI.php:440
 #@ wp-cc
 msgid "If you want to use syntax highlighting via rainbow.js, just enable it and choose a theme."
 msgstr "如果您想通过 rainbow.js 开启语法高亮，勾选此项即可。"
 
-#: php/class-CC_Admin_UI.php:567
+#: php/class-CC_Admin_UI.php:578
 #@ wp-cc
 msgid "Insert a Codeblock"
 msgstr "插入一段代码"
 
-#: php/class-CC_Admin_UI.php:568
+#: php/class-CC_Admin_UI.php:579
 #@ wp-cc
 msgid "Available Codeblocks"
 msgstr "可用代码"
 
-#: php/class-CC_Admin_UI.php:572
+#: php/class-CC_Admin_UI.php:583
 #@ wp-cc
 msgid "or write your code into the editor"
 msgstr "或者手动在编辑器中添加"
 
-#: php/class-CC_Admin_UI.php:573
+#: php/class-CC_Admin_UI.php:584
 #@ wp-cc
 msgid "Languages supported by Rainbow.js"
 msgstr "Rainbow.js 支持的语言"
 
-#: php/class-CC_Admin_UI.php:577
+#: php/class-CC_Admin_UI.php:588
 #@ wp-cc
 msgid "Insert Shortcode"
 msgstr "插入代码"
