@@ -5,7 +5,9 @@
  * @subpackage WP Colored Coding
  * @requires jQuery framework
  */
-( function( $ ) {
+ // jshint strict: true, undef: true, unused: true
+( function($, wpCcGlobals) {
+	"use strict";
 
 	$( document ).ready(
 		function() {
@@ -24,8 +26,8 @@
 					 * @link http://stackoverflow.com/questions/263743/how-to-get-cursor-position-in-textarea
 					 */
 					var getInputSelection = function( el ) {
-						var start = 0, end = 0, normalizedValue, range,
-							textInputRange, len, endRange;
+						var start = 0,
+							end = 0;
 						if ( 'number' == typeof( el.selectionStart )  && 'number' == typeof( el.selectionEnd ) ) {
 							start = el.selectionStart;
 							end = el.selectionEnd;
@@ -35,7 +37,7 @@
 							start: start,
 							end: end
 						};
-					}
+					};
 					this.ccSelection = getInputSelection( this );
 				}
 			);
@@ -161,7 +163,7 @@
 	/**
 	 * the dialog triggered by the TinyMCE Button
 	 */
-	ccDialog  = {
+	var ccDialog  = {
 
 		/**
 		 * the formular
@@ -184,7 +186,7 @@
 
 			ccDialog.dialog = $( '#wp-cc-mce-popup' );
 			ccDialog.dialog.submit( ccDialog.submit );
-			ccDialog.dialog._focus( ccDialog.updateOptions );
+			ccDialog.dialog.focus( ccDialog.updateOptions );
 			// close the dialog on 'ESC'
 			$( document ).keyup(
 				function( e ) {
@@ -204,10 +206,11 @@
 		 * @return false
 		 */
 		submit : function( e ) {
+			var sc,
+				codeblock = null,
+				language  = null;
 
 			e.preventDefault();
-			var codeblock = null;
-			var language  = null;
 			codeblock = ccDialog.dialog.find( '#wp-cc-dialog-options-codeblocks select' ).val();
 			language  = ccDialog.dialog.find( '#wp-cc-dialog-options-language select' ).val();
 
@@ -218,16 +221,17 @@
 			}
 
 			//the shortcode
-			if ( codeblock )
-				var sc = '[cc name="' + codeblock + '"/]';
-			else if ( language )
-				var sc = '[cc lang="' + language + '"][/cc]';
-
+			if ( codeblock ) {
+				sc = '[cc name="' + codeblock + '"/]';
+			}
+			else if ( language ) {
+				sc = '[cc lang="' + language + '"][/cc]';
+			}
 
 			//TinyMCE Mode (richt text editor)
 			if ( ccDialog.isMCE() ) {
-				e = tinyMCEPopup.editor;
-				tinyMCEPopup.restoreSelection();
+				e = window.tinyMCEPopup.editor;
+				window.tinyMCEPopup.restoreSelection();
 				e.execCommand( 'mceInsertContent', false, sc );
 			}
 
@@ -242,8 +246,7 @@
 		 * @param e Event (Optional)
 		 * @return void
 		 */
-		updateOptions : function( e ) {
-
+		updateOptions : function(e) {
 			$.post(
 				wpCcGlobals.AjaxUrl,
 				{
@@ -266,9 +269,9 @@
 		 */
 		isMCE : function() {
 
-			if ( 'undefined' !== typeof( tinyMCEPopup )
-			  && 'undefined' !== typeof( tinyMCEPopup.editor )
-			  && ! tinyMCEPopup.editor.isHidden()
+			if (	'undefined' !== typeof( window.tinyMCEPopup ) &&
+					'undefined' !== typeof( window.tinyMCEPopup.editor ) &&
+					! window.tinyMCEPopup.editor.isHidden()
 			) {
 				return true;
 			}
@@ -298,10 +301,10 @@
 	 */
 	$( document ).ready(
 		function() {
-			if ( ! Modernizr.input.list || ( parseInt( $.browser.version ) > 400 ) ) {
+			if ( ! window.Modernizr.input.list || ( parseInt( $.browser.version , 10) > 400 ) ) {
 				$( '.cc-lang' ).relevantDropdown();
 			}
 		}
 	);
 
-} )(jQuery);
+} )(window.jQuery, window.wpCcGlobals || {});
