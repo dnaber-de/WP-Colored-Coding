@@ -185,7 +185,12 @@
 			//tinyMCEPopup is still undefined at this point
 
 			ccDialog.dialog = $( '#wp-cc-mce-popup' );
-			ccDialog.dialog.submit( ccDialog.submit );
+			ccDialog.dialog.on(
+				'submit',
+				function( e ) {
+					ccDialog.submit( e );
+				}
+			);
 			ccDialog.dialog.on(
 				'wpdialogbeforeopen',
 				function( e ) {
