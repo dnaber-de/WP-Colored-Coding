@@ -186,7 +186,12 @@
 
 			ccDialog.dialog = $( '#wp-cc-mce-popup' );
 			ccDialog.dialog.submit( ccDialog.submit );
-			ccDialog.dialog.focus( ccDialog.updateOptions );
+			ccDialog.dialog.on(
+				'wpdialogbeforeopen',
+				function( e ) {
+					ccDialog.updateOptions( e );
+				}
+			);
 			// close the dialog on 'ESC'
 			$( document ).keyup(
 				function( e ) {
