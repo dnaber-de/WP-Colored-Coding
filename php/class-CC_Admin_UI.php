@@ -32,10 +32,7 @@ class CC_Admin_UI {
 	 * @param WP_Colored_Coding $plugin
 	 * @return CC_Admin_UI
 	 */
-	public function __construct( $plugin ) {
-
-		if ( ! $plugin instanceof WP_Colored_Coding )
-			exit( 'Wrong Parameter in ' . __METHOD__  );
+	public function __construct( WP_Colored_Coding $plugin ) {
 
 		$this->plugin = $plugin;
 		$this->settings_section = $this->plugin->option_key . '_section';
@@ -616,8 +613,10 @@ class CC_Admin_UI {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 			$ajax = TRUE;
 
-		if ( ! $ajax && empty( $name ) )
-			exit( 'Missing parameter: name in ' . __METHOD__ );
+		if ( ! $ajax && empty( $name ) ) {
+			_doing_it_wrong( __METHOD__, 'Missing parameter "name"', '2014.08.14' );
+			return '';
+		}
 
 		if ( $ajax ) {
 			$name = $_POST[ 'name' ];
