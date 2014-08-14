@@ -158,7 +158,7 @@ class CC_Admin_UI {
 		?>
 		<input type="hidden" name="wp-cc[nonce]" value="<?php echo wp_create_nonce( 'wp_cc_nonce' ); ?>" id="wp-cc-nonce" />
 		<div class="inside">
-			<p><?php _e( 'To delete a codeblock just leave the textarea(code) empty and update.', 'wp-cc' ); ?></p>
+			<p><?php esc_html_e( 'To delete a codeblock just leave the textarea(code) empty and update.', 'wp-cc' ); ?></p>
 			<ul id="wp-cc-code-list">
 			<?php foreach ( $code as $name => $block ) {
 				$this->single_codeblock( array_merge( $block, array( 'name' => $name ) ) );
@@ -168,7 +168,7 @@ class CC_Admin_UI {
 				class="button-secondary"
 				type="button"
 				id="wp-cc-new-block"
-				value="<?php _e( 'Give me the next block', 'wp-cc' ); ?>"
+				value="<?php esc_attr_e( 'Give me the next block', 'wp-cc' ); ?>"
 			/></p>
 
 			</div>
@@ -207,13 +207,13 @@ class CC_Admin_UI {
 					<div class="cc-input">
 						<div>
 							<p>
-								<label for="name-<?php echo $ns; ?>"><?php _e( 'Name', 'wp-cc' ); ?></label>
+								<label for="name-<?php echo $ns; ?>"><?php esc_html_e( 'Name', 'wp-cc' ); ?></label>
 								<input
 									id="name-<?php echo $ns; ?>"
 									class="cc-data"
 									type="text"
 									name="wp-cc[block][<?php echo $ns; ?>][name]"
-									value="<?php echo $v[ 'name' ]; ?>"
+									value="<?php echo esc_attr( $v[ 'name' ] ); ?>"
 									placeholder="<?php esc_attr_e( 'Use within the Shortcode [cc name=""]', 'wp-cc' ); ?>"
 									<?php if ( '' !== $v[ 'name' ] ) : ?>
 										readonly="readonly"
@@ -221,19 +221,19 @@ class CC_Admin_UI {
 								/>
 							</p>
 							<p>
-								<label for="lang-<?php echo $ns; ?>"><?php _e( 'Language', 'wp-cc' ); ?></label>
+								<label for="lang-<?php echo $ns; ?>"><?php esc_html_e( 'Language', 'wp-cc' ); ?></label>
 								<input
 									id="lang-<?php echo $ns; ?>"
 									class="cc-data cc-lang"
 									type="text"
 									name="wp-cc[block][<?php echo $ns; ?>][lang]"
-									value="<?php echo $v[ 'lang' ]; ?>"
+									value="<?php echo esc_html( $v[ 'lang' ] ); ?>"
 									placeholder="<?php esc_attr_e( 'Leave empty for no syntax highlighting', 'wp-cc' ); ?>"
 									list="lang-list-<?php echo $ns; ?>"
 								/>
 								<datalist id="lang-list-<?php echo $ns; ?>">
 									<?php foreach ( $langs as $value => $name ) : ?>
-										<option value="<?php echo $value; ?>"><?php echo $name; ?></option>
+										<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $name ); ?></option>
 									<?php endforeach; ?>
 								</datalist>
 							</p>
@@ -247,7 +247,7 @@ class CC_Admin_UI {
 										value="1"
 										<?php checked( $v[ 'raw' ], TRUE ); ?>
 									/>
-									<label for="raw-<?php echo $ns; ?>"><?php _e( 'Raw HTML Code (Note! This will print the plain Code without any escaping filters)', 'wp-cc' ); ?></label>
+									<label for="raw-<?php echo $ns; ?>"><?php esc_html_e( 'Raw HTML Code (Note! This will print the plain Code without any escaping filters)', 'wp-cc' ); ?></label>
 								</p>
 							<?php endif; ?>
 						</div>
@@ -259,14 +259,14 @@ class CC_Admin_UI {
 							</div>
 							<div class="cc-code">
 								<p>
-									<label for="code-<?php echo $ns; ?>"><?php _e( 'Code', 'wp-cc' ); ?></label><br />
-									<textarea rows="10" class="large-text wp-cc-codearea cc-data" id="code-<?php echo $ns; ?>" name="wp-cc[block][<?php echo $ns; ?>][code]"><?php echo $v[ 'code' ]; ?></textarea
+									<label for="code-<?php echo $ns; ?>"><?php esc_html_e( 'Code', 'wp-cc' ); ?></label><br />
+									<textarea rows="10"	class="large-text wp-cc-codearea cc-data" id="code-<?php echo $ns; ?>" name="wp-cc[block][<?php echo $ns; ?>][code]"><?php echo esc_attr( $v[ 'code' ] ); ?></textarea>
 								</p>
 							</div>
 						</div>
 					</div>
 					<div class="cc-submit">
-						<input type="button" class="wp-cc-single-update button-secondary" value="<?php _e( 'Update', 'wp-cc' ); ?>" data-ns="<?php echo $ns; ?>" />
+						<input type="button" class="wp-cc-single-update button-secondary" value="<?php esc_attr_e( 'Update', 'wp-cc' ); ?>" data-ns="<?php echo $ns; ?>" />
 					</div>
 				</div>
 			</div>
@@ -437,7 +437,7 @@ class CC_Admin_UI {
 	public function settings_description() {
 		?>
 		<div class="inside">
-			<p><?php _e( 'If you want to use syntax highlighting via rainbow.js, just enable it and choose a theme.', 'wp-cc' ); ?></p>
+			<p><?php esc_html_e( 'If you want to use syntax highlighting via rainbow.js, just enable it and choose a theme.', 'wp-cc' ); ?></p>
 		</div>
 		<?php
 	}
@@ -497,16 +497,16 @@ class CC_Admin_UI {
 		$current_value = $option[ $option_key ];
 
 		?>
-		<select name="<?php echo $attr[ 'name' ]; ?>" id="<?php echo $attr[ 'id' ];?>">
+		<select name="<?php echo esc_attr( $attr[ 'name' ] ); ?>" id="<?php echo esc_attr( $attr[ 'id' ] );?>">
 			<option value=""></option>
 		<?php foreach ( $attr[ 'options' ] as $value => $name ) : ?>
-			<option value="<?php echo $value; ?>" <?php selected( $current_value, $value ); ?>><?php echo $name; ?></option>
+			<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current_value, $value ); ?>><?php echo esc_html( $name ); ?></option>
 		<?php endforeach; ?>
 		</select>
 		<?php
 		if ( ! empty( $attr[ 'description' ] ) ) : ?>
 			<p class="help">
-				<?php echo $attr[ 'description' ]; ?>
+				<?php echo esc_html( $attr[ 'description' ] ); ?>
 			</p>
 			<?php
 		endif;
@@ -524,11 +524,11 @@ class CC_Admin_UI {
 		$option_key = preg_replace( '~^cc_~', '', $attr[ 'id' ] );
 		$current_value = $option[ $option_key ];
 		?>
-		<input type="checkbox" name="<?php echo $attr[ 'name' ]; ?>" id="<?php echo $attr[ 'id' ]; ?>" value="1" <?php checked( $current_value, '1' ); ?> />
+		<input type="checkbox" name="<?php echo esc_attr( $attr[ 'name' ] ); ?>" id="<?php echo esc_attr( $attr[ 'id' ] ); ?>" value="1" <?php checked( $current_value, '1' ); ?> />
 		<?php
 		if ( ! empty( $attr[ 'description' ] ) ) : ?>
 			<p class="help">
-				<?php echo $attr[ 'description' ]; ?>
+				<?php echo esc_html( $attr[ 'description' ] ); ?>
 			</p>
 			<?php
 		endif;
@@ -574,28 +574,28 @@ class CC_Admin_UI {
 		<div style="display:none">
 			<form id="wp-cc-mce-popup">
 				<div class="inside">
-					<h4><?php _e( 'Insert a Codeblock', 'wp-cc' ); ?></h4>
+					<h4><?php esc_html_e( 'Insert a Codeblock', 'wp-cc' ); ?></h4>
 					<p>
 						<span id="wp-cc-dialog-options-codeblocks">
 							<?php echo $this->get_code_dropdown( 'wp-cc-dialog-codeblocks', 'cc-dialog-shortcodes' ); ?>
 						</span>
-						<label for="cc-dialog-shortcodes"><?php _e( 'Available Codeblocks', 'wp-cc' ); ?></label>
+						<label for="cc-dialog-shortcodes"><?php esc_html_e( 'Available Codeblocks', 'wp-cc' ); ?></label>
 					</p>
 				</div>
 				<div class="inside">
-					<h4><?php _e( 'or write your code into the editor', 'wp-cc' ); ?></h4>
+					<h4><?php esc_html_e( 'or write your code into the editor', 'wp-cc' ); ?></h4>
 					<p>
 						<span id="wp-cc-dialog-options-language">
 							<?php echo $this->get_supported_languages_dropdown( 'wp-cc-dialog-language', 'cc-dialog-shortcode-language' ); ?>
 						</span>
-						<label for="cc-dialog-shortcode-language"><?php _e( 'Languages supported by Rainbow.js', 'wp-cc' ); ?></label>
+						<label for="cc-dialog-shortcode-language"><?php esc_html_e( 'Languages supported by Rainbow.js', 'wp-cc' ); ?></label>
 					</p>
 				</div>
 				<div class="inside">
 					<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Insert Shortcode', 'wp-cc' ); ?>" /></p>
 				</div>
 				<div>
-					<input type="hidden" name="wp-cc[dialog-nonce]" id="wp-cc-dialog-nonce" value="<?php echo wp_create_nonce( 'wp_cc_dialog_nonce' ); ?>" />
+					<input type="hidden" name="wp-cc[dialog-nonce]" id="wp-cc-dialog-nonce" value="<?php echo esc_attr( wp_create_nonce( 'wp_cc_dialog_nonce' ) ); ?>" />
 				</div>
 			</form>
 		</div>
@@ -632,11 +632,11 @@ class CC_Admin_UI {
 			$id = $name;
 
 		$select =
-			  '<select name="' .  $name . '" id="' . $id . '">'
+			  '<select name="' .  esc_attr( $name ) . '" id="' . esc_attr( $id ) . '">'
 			. '<option value=""></option>';
 		$code = $this->plugin->get_code( $pid );
 		foreach ( $code as $name => $c ) {
-			$select .='<option value="' . $name  . '">' . $name . '</option>';
+			$select .='<option value="' . esc_attr( $name ) . '">' . esc_html( $name ) . '</option>';
 		}
 		$select .= '</select>';
 
@@ -644,6 +644,7 @@ class CC_Admin_UI {
 			echo $select;
 			exit;
 		}
+
 		return $select;
 	}
 
@@ -661,12 +662,12 @@ class CC_Admin_UI {
 			$id = $name;
 
 		$select =
-			  '<select name="' . $name . '" id="' . $id . '">'
+			  '<select name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '">'
 			. '<option value=""></option>';
 
 		$langs = $this->plugin->get_langs();
 		foreach ( $langs as $slug => $name ) {
-			$select .='<option value="' . $slug . '">' . $name . '</option>';
+			$select .='<option value="' . esc_attr( $slug ) . '">' . esc_html( $name ) . '</option>';
 		}
 		$select .= '</select>';
 
