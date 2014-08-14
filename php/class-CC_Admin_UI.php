@@ -573,23 +573,29 @@ class CC_Admin_UI {
 		?>
 		<div style="display:none">
 			<form id="wp-cc-mce-popup">
-				<div class="postbox">
-					<div class="inside">
-						<h4><?php _e( 'Insert a Codeblock', 'wp-cc' ); ?></h4>
-						<p><label for="cc-dialog-shortcodes"><?php _e( 'Available Codeblocks', 'wp-cc' ); ?></label></p>
-						<p id="wp-cc-dialog-options-codeblocks"><?php echo $this->get_code_dropdown( 'wp-cc-dialog-codeblocks' ); ?></p>
-					</div>
-					<div class="inside">
-						<h4><?php _e( 'or write your code into the editor', 'wp-cc' ); ?></h4>
-						<p><label for="cc-dialog-shortcodes"><?php _e( 'Languages supported by Rainbow.js', 'wp-cc' ); ?></label></p>
-						<p id="wp-cc-dialog-options-language"><?php echo $this->get_supported_languages_dropdown( 'wp-cc-dialog-language' ); ?></p>
-					</div>
-					<div class="inside">
-						<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Insert Shortcode', 'wp-cc' ); ?>" /></p>
-					</div>
-					<div>
-						<input type="hidden" name="wp-cc[dialog-nonce]" id="wp-cc-dialog-nonce" value="<?php echo wp_create_nonce( 'wp_cc_dialog_nonce' ); ?>" />
-					</div>
+				<div class="inside">
+					<h4><?php _e( 'Insert a Codeblock', 'wp-cc' ); ?></h4>
+					<p>
+						<span id="wp-cc-dialog-options-codeblocks">
+							<?php echo $this->get_code_dropdown( 'wp-cc-dialog-codeblocks' ); ?>
+						</span>
+						<label for="cc-dialog-shortcodes"><?php _e( 'Available Codeblocks', 'wp-cc' ); ?></label>
+					</p>
+				</div>
+				<div class="inside">
+					<h4><?php _e( 'or write your code into the editor', 'wp-cc' ); ?></h4>
+					<p>
+						<span id="wp-cc-dialog-options-language">
+							<?php echo $this->get_supported_languages_dropdown( 'wp-cc-dialog-language' ); ?>
+						</span>
+						<label for="cc-dialog-shortcodes"><?php _e( 'Languages supported by Rainbow.js', 'wp-cc' ); ?></label>
+					</p>
+				</div>
+				<div class="inside">
+					<p><input type="submit" class="button-primary" value="<?php esc_attr_e( 'Insert Shortcode', 'wp-cc' ); ?>" /></p>
+				</div>
+				<div>
+					<input type="hidden" name="wp-cc[dialog-nonce]" id="wp-cc-dialog-nonce" value="<?php echo wp_create_nonce( 'wp_cc_dialog_nonce' ); ?>" />
 				</div>
 			</form>
 		</div>
