@@ -613,7 +613,6 @@ class CC_Admin_UI {
 	public function get_code_dropdown( $name = '', $id = '' ) {
 
 		$ajax = FALSE;
-		$pid  = '';
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 			$ajax = TRUE;
 
