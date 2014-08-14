@@ -136,6 +136,7 @@ If you deactivate the plugin all settings and codes will be preserved. On uninst
 == Acknowledgement ==
 * Thanks to [sparanoid](https://github.com/sparanoid) for chinese translation
 * Thanks to [@volleyballfisch](https://twitter.com/Volleyballfisch) for spanish translation
+* Thanks to [yonjah](https://github.com/yonjah) for JS Bugfixing
 
 == Screenshots ==
 1. The Meta-Box on post edit screen to manage your code snippeds.
