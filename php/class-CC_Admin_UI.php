@@ -152,8 +152,9 @@ class CC_Admin_UI {
 	public function code_metabox( $post ) {
 		$code = $this->plugin->get_code( $post->ID );
 		$code[ '' ] = array(); # append an empty section for a new codeblock
+		$nonce = wp_create_nonce( 'wp_cc_nonce_' . get_current_blog_id() );
 		?>
-		<input type="hidden" name="wp-cc[nonce]" value="<?php echo wp_create_nonce( 'wp_cc_nonce' ); ?>" id="wp-cc-nonce" />
+		<input type="hidden" name="wp-cc[nonce]" value="<?php echo $nonce; ?>" id="wp-cc-nonce" />
 		<div class="inside">
 			<p><?php esc_html_e( 'To delete a codeblock just leave the textarea(code) empty and update.', 'wp-cc' ); ?></p>
 			<ul id="wp-cc-code-list">
@@ -194,7 +195,7 @@ class CC_Admin_UI {
 		$langs = $this->plugin->get_langs();
 		asort( $langs );
 
-		if ( $ajax && ! wp_verify_nonce( $_POST[ 'nonce' ], 'wp_cc_nonce' ) )
+		if ( $ajax && ! wp_verify_nonce( $_POST[ 'nonce' ], 'wp_cc_nonce_' . get_current_blog_id() ) )
 			exit;
 
 		?>
@@ -286,7 +287,7 @@ class CC_Admin_UI {
 		if (
 			! isset( $_POST[ 'wp-cc' ] )
 		||  ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-		||  (  ! wp_verify_nonce( $_POST['wp-cc'][ 'nonce' ], 'wp_cc_nonce' ) )
+		||  (  ! wp_verify_nonce( $_POST['wp-cc'][ 'nonce' ], 'wp_cc_nonce_' . get_current_blog_id() ) )
 		||  ( isset( $_POST[ 'post_type' ] ) && ! current_user_can( 'edit_' . $_POST[ 'post_type' ], $post_id ) )
 		)
 			return;
@@ -321,7 +322,7 @@ class CC_Admin_UI {
 		if ( ! defined( 'DOING_AJAX' )  || ! DOING_AJAX )
 			return;
 
-		if ( ! wp_verify_nonce( $_POST[ 'nonce' ], 'wp_cc_nonce' ) )
+		if ( ! wp_verify_nonce( $_POST[ 'nonce' ], 'wp_cc_nonce_' . get_current_blog_id() ) )
 			exit;
 
 		$return = array(
