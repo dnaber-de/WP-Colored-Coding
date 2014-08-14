@@ -95,7 +95,7 @@ class CC_Admin_UI {
 		wp_enqueue_script(
 			'wp-cc-admin-script',
 			WP_Colored_Coding::$uri . '/js/admin.js',
-			array( 'jquery', 'jquery-color', 'relevant-dropdowns' ),
+			array( 'jquery', 'jquery-color', 'relevant-dropdowns', 'wpdialogs'),
 			WP_Colored_Coding::VERSION,
 			FALSE
 		);
@@ -103,7 +103,7 @@ class CC_Admin_UI {
 		wp_enqueue_style(
 			'wp-cc-admin-style',
 			WP_Colored_Coding::$uri . '/css/admin.css',
-			array(),
+			array( 'wp-jquery-ui-dialog' ),
 			WP_Colored_Coding::VERSION
 		);
 
