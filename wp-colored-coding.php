@@ -360,7 +360,7 @@ if ( ! class_exists( 'WP_Colored_Coding' ) ) {
 		 * @access public
 		 * @since 0.1
 		 * @param array $attr
-		 * @param srting $content (Optional)
+		 * @param string $content (Optional)
 		 * @return string
 		 */
 		public function cc_block_shortcode( $attr, $content = '' ) {
