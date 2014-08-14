@@ -89,6 +89,8 @@
 							action : wpCcGlobals.NewBlockAction
 						},
 						function( data ) {
+							if ( 'undefined' == typeof data || ! data )
+								return;
 							data = $( data );
 							data.hide();
 							$( '#wp-cc-code-list' ).append( data );
@@ -124,6 +126,8 @@
 						wpCcGlobals.AjaxUrl,
 						data,
 						function( data ) {
+							if ( 'undefined' == typeof data || ! data )
+								return;
 							if ( data.name ) {
 								$( '#name-' + ns )
 									.attr( 'value', data.name )
@@ -268,7 +272,8 @@
 					el_id    : elementID
 				},
 				function( data ) {
-					//data is a html string
+					if ( 'undefined' == typeof data || ! data )
+						return;
 					$( '#wp-cc-dialog-options-codeblocks' ).html( data );
 				}
 			);
