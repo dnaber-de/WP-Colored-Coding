@@ -577,7 +577,7 @@ class CC_Admin_UI {
 					<h4><?php _e( 'Insert a Codeblock', 'wp-cc' ); ?></h4>
 					<p>
 						<span id="wp-cc-dialog-options-codeblocks">
-							<?php echo $this->get_code_dropdown( 'wp-cc-dialog-codeblocks' ); ?>
+							<?php echo $this->get_code_dropdown( 'wp-cc-dialog-codeblocks', 'cc-dialog-shortcodes' ); ?>
 						</span>
 						<label for="cc-dialog-shortcodes"><?php _e( 'Available Codeblocks', 'wp-cc' ); ?></label>
 					</p>
@@ -586,9 +586,9 @@ class CC_Admin_UI {
 					<h4><?php _e( 'or write your code into the editor', 'wp-cc' ); ?></h4>
 					<p>
 						<span id="wp-cc-dialog-options-language">
-							<?php echo $this->get_supported_languages_dropdown( 'wp-cc-dialog-language' ); ?>
+							<?php echo $this->get_supported_languages_dropdown( 'wp-cc-dialog-language', 'cc-dialog-shortcode-language' ); ?>
 						</span>
-						<label for="cc-dialog-shortcodes"><?php _e( 'Languages supported by Rainbow.js', 'wp-cc' ); ?></label>
+						<label for="cc-dialog-shortcode-language"><?php _e( 'Languages supported by Rainbow.js', 'wp-cc' ); ?></label>
 					</p>
 				</div>
 				<div class="inside">
@@ -623,6 +623,7 @@ class CC_Admin_UI {
 		if ( $ajax ) {
 			$name = $_POST[ 'name' ];
 			$pid  = $_POST[ 'pid' ];
+			$id   = $_POST[ 'el_id' ];
 		} else {
 			$pid = get_the_ID();
 		}
@@ -631,11 +632,11 @@ class CC_Admin_UI {
 			$id = $name;
 
 		$select =
-			  '<select name="' . $name . '" id="' . $id . '">'
+			  '<select name="' .  $name . '" id="' . $id . '">'
 			. '<option value=""></option>';
 		$code = $this->plugin->get_code( $pid );
 		foreach ( $code as $name => $c ) {
-			$select .='<option value="' . $name . '">' . $name . '</option>';
+			$select .='<option value="' . $name  . '">' . $name . '</option>';
 		}
 		$select .= '</select>';
 

@@ -257,13 +257,15 @@
 		 * @return void
 		 */
 		updateOptions : function(e) {
+			var elementID = $( '#wp-cc-dialog-options-codeblocks' ).find( 'select' ).attr( 'id' );
 			$.post(
 				wpCcGlobals.AjaxUrl,
 				{
 					nonce    : $( '#wp-cc-dialog-nonce' ).val(),
 					action   : wpCcGlobals.UpdateOptionsAction,
 					name     : 'wp-cc-dialog-codeblocks',
-					pid      : wpCcGlobals.PostID
+					pid      : wpCcGlobals.PostID,
+					el_id    : elementID
 				},
 				function( data ) {
 					//data is a html string
