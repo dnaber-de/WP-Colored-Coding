@@ -177,6 +177,11 @@
 		popup : null,
 
 		/**
+		 * the backdrop
+		 */
+		backdrop : null,
+
+		/**
 		 * start the magic for the dialog box
 		 *
 		 * @return void
@@ -189,6 +194,7 @@
 			//tinyMCEPopup is still undefined at this point
 
 			ccDialog.popup = $( '#wp-cc-mce-popup' );
+			ccDialog.backdrop = $( '#wp-link-backdrop' ); // don't know if there is a general backdrop for dialogs?
 			ccDialog.popup.on(
 				'submit',
 				function( e ) {
@@ -211,6 +217,21 @@
 				}
 			);
 
+		},
+
+		/**
+		 * open the dialog
+		 *
+		 * @returns void
+		 */
+		open : function() {
+
+			ccDialog.popup.wpdialog( {
+				 close : function () {
+					ccDialog.backdrop.hide();
+				}
+			} );
+			ccDialog.backdrop.show();
 		},
 
 		/**
@@ -307,9 +328,11 @@
 				e.preventDefault();
 
 			ccDialog.popup.wpdialog( 'close' );
+			ccDialog.backdrop.hide();
 			return false;
 		}
 	};
+	window.ccDialog = ccDialog;
 	$( document ).ready( ccDialog.init );
 
 

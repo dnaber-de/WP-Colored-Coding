@@ -13,23 +13,7 @@
 				editor.addCommand(
 					'wp_cc_open_dialog',
 					function() {
-						/**
-						 * @link http://www.tinymce.com/wiki.php/API3:method.tinymce.WindowManager.open
-						 * @param Object Popup settings
-						 * @param Object Arguments to pass to the Popup
-						 */
-						editor.windowManager.open(
-							{
-								id       : 'wp-cc-mce-popup',
-								width    : 480,
-								height   : 'auto',
-								title    : 'CC Shortcodes',
-								wpDialog : true
-							},
-							{
-								plugin_url : url
-							}
-						);
+						window.ccDialog.open();
 					}
 				);
 				/**
