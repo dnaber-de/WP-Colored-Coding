@@ -174,7 +174,7 @@
 		 *
 		 * @var Object
 		 */
-		dialog : null,
+		popup : null,
 
 		/**
 		 * start the magic for the dialog box
@@ -188,20 +188,20 @@
 				return; //no!
 			//tinyMCEPopup is still undefined at this point
 
-			ccDialog.dialog = $( '#wp-cc-mce-popup' );
-			ccDialog.dialog.on(
+			ccDialog.popup = $( '#wp-cc-mce-popup' );
+			ccDialog.popup.on(
 				'submit',
 				function( e ) {
 					ccDialog.submit( e );
 				}
 			);
-			ccDialog.dialog.on(
+			ccDialog.popup.on(
 				'wpdialogbeforeopen',
 				function( e ) {
 					ccDialog.updateOptions( e );
 				}
 			);
-			// close the dialog on 'ESC'
+			// close the popup on 'ESC'
 			$( document ).keyup(
 				function( e ) {
 					if ( 27 == e.keyCode ) {
@@ -225,8 +225,8 @@
 				language  = null;
 
 			e.preventDefault();
-			codeblock = ccDialog.dialog.find( '#wp-cc-dialog-options-codeblocks select' ).val();
-			language  = ccDialog.dialog.find( '#wp-cc-dialog-options-language select' ).val();
+			codeblock = ccDialog.popup.find( '#wp-cc-dialog-options-codeblocks select' ).val();
+			language  = ccDialog.popup.find( '#wp-cc-dialog-options-language select' ).val();
 
 			//no values at all?
 			if ( ! codeblock && ! language ) {
@@ -296,7 +296,7 @@
 		},
 
 		/**
-		 * close the dialog window
+		 * close the popup window
 		 *
 		 * @param e Event (optional)
 		 * @return false
@@ -306,7 +306,7 @@
 			if ( e && 'function' == typeof( e.preventDefault ) )
 				e.preventDefault();
 
-			ccDialog.dialog.wpdialog( 'close' );
+			ccDialog.popup.wpdialog( 'close' );
 			return false;
 		}
 	};
