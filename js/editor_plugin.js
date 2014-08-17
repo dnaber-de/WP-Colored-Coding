@@ -13,7 +13,7 @@
 				editor.addCommand(
 					'wp_cc_open_dialog',
 					function() {
-						window.ccDialog.open();
+						window.ccDialog.open( editor );
 					}
 				);
 				/**

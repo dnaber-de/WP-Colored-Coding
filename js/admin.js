@@ -182,6 +182,11 @@
 		backdrop : null,
 
 		/**
+		 * the editor
+		 */
+		editor : null,
+
+		/**
 		 * start the magic for the dialog box
 		 *
 		 * @return void
@@ -222,10 +227,12 @@
 		/**
 		 * open the dialog
 		 *
+		 * @param editor
 		 * @returns void
 		 */
-		open : function() {
+		open : function( editor ) {
 
+			ccDialog.editor = editor;
 			ccDialog.popup.wpdialog( {
 				 close : function () {
 					ccDialog.backdrop.hide();
@@ -264,10 +271,8 @@
 			}
 
 			//TinyMCE Mode (richt text editor)
-			if ( ccDialog.isMCE() ) {
-				e = window.tinyMCEPopup.editor;
-				window.tinyMCEPopup.restoreSelection();
-				e.execCommand( 'mceInsertContent', false, sc );
+			if ( ccDialog.editor ) {
+				ccDialog.editor.execCommand( 'mceInsertContent', false, sc );
 			}
 
 			ccDialog.close();
