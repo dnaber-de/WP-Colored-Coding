@@ -153,6 +153,7 @@ None so far. If you have any questions feel free to [contact](http://dnaber.de/k
 
 = 2014.08.19 =
 * Adaption to TinyMCE version 4.*
+* Update Rainbow.js to version 1.2
 * Some security enhancements
 * Bugfixes
 * Changed version number format

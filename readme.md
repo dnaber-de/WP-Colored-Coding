@@ -121,6 +121,14 @@ If you deactivate the plugin all settings and codes will be preserved. On uninst
 
 ## Changelog
 
+### 2014.08.19
+* Adaption to TinyMCE version 4.*
+* Update Rainbow.js to version 1.2
+* Some security enhancements
+* Bugfixes
+* Changed version number format
+
+
 ### 1.2
 * fixed a bug of the unfiltered output option
 * better readme.txt for wordpress.org
