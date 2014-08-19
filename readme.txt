@@ -1,9 +1,9 @@
 === WP Colored Coding ===
 Contributors: dnaber-de
 Tags: syntax highlighting, rainbow.js, code samples
-Requires at least: 3.3
-Tested up to: 3.4.2
-Stable tag: 1.2
+Requires at least: 3.9.2
+Tested up to: 3.9.2
+Stable tag: 2014.08.19
 License: Apache 2.0
 License URI: http://www.apache.org/licenses/LICENSE-2.0
 
@@ -12,6 +12,8 @@ Syntax highlighting with Rainbow.js.
 == Description ==
 
 Brings the cool Javascript syntax highlighter [Rainbow.js](https://github.com/ccampbell/rainbow) to your Wordpress-Blog and allows you to manage code snippets independend from the text editor.
+
+**IMPORTANT! – This plugin is no longer testet with PHP 5.2!**
 
 = Quick Start =
 1. Download the plugin from this page
@@ -26,7 +28,7 @@ If you want to change the behaviour of the plugin see the [API-Documentation](ht
 ![Screenshot 2](http://wordpress.org/extend/plugins/wp-colored-coding/assets/screenshot-2.png)
 ![Screenshot 3](http://wordpress.org/extend/plugins/wp-colored-coding/assets/screenshot-3.png)
 == Installation ==
-Just [download](https://github.com/dnaber-de/WP-Colored-Coding/downloads) the latest tag and follow the instructions on the [Wordpress Codex](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+Just [download](https://github.com/dnaber-de/WP-Colored-Coding/releases) the latest tag and follow the instructions on the [Wordpress Codex](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation). Otherwise you can use the plugin installer in your WordPress backend.
 
 == Settings ==
 By default, the plugin is ready for use after activation. Some options can be changed on Settings → Writing.
@@ -147,8 +149,13 @@ If you deactivate the plugin all settings and codes will be preserved. On uninst
 = Are there any frequently asked questions? =
 None so far. If you have any questions feel free to [contact](http://dnaber.de/kontakt) me (english, german) or use the [support forum](http://wordpress.org/support/plugin/wp-colored-coding) on wordpress.org.
 
-
 == Changelog ==
+
+= 2014.08.19 =
+* Adaption to TinyMCE version 4.*
+* Some security enhancements
+* Bugfixes
+* Changed version number format
 
 = 1.2.0 =
 * fixed a bug of the unfiltered output option
