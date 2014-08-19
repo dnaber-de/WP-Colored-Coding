@@ -109,7 +109,7 @@ class CC_Admin_UI {
 			'wpCcGlobals',
 			array(
 				'AjaxUrl'             => admin_url( 'admin-ajax.php' ),
-				'PostID'              => ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) )
+				'PostID'              => ( isset( $GLOBALS[ 'post' ] ) && is_a( $GLOBALS[ 'post' ], 'WP_Post' ) )
 					? get_the_ID()
 					: NULL,
 				'NonceFieldId'        => 'wp-cc-nonce',
@@ -623,8 +623,10 @@ class CC_Admin_UI {
 			$name = $_POST[ 'name' ];
 			$pid  = $_POST[ 'pid' ];
 			$id   = $_POST[ 'el_id' ];
-		} else {
+		} elseif ( isset( $GLOBALS[ 'post' ] ) && is_a( $GLOBALS[ 'post' ], 'WP_Post' ) ) {
 			$pid = get_the_ID();
+		} else {
+			$pid = 0;
 		}
 
 		if ( empty( $id ) )
