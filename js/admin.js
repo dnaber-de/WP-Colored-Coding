@@ -273,12 +273,11 @@
 
 			//TinyMCE Mode (richt text editor)
 			if ( ccDialog.editor ) {
-				ccDialog.editor.execCommand( 'mceInsertContent', false, sc );
+				ccDialog.editor.insertContent( sc );
+				ccDialog.editor.focus();
 			}
 
 			ccDialog.close();
-			return false;
-
 		},
 
 		/**
@@ -335,7 +334,6 @@
 
 			ccDialog.popup.wpdialog( 'close' );
 			ccDialog.backdrop.hide();
-			return false;
 		}
 	};
 	window.ccDialog = ccDialog;
