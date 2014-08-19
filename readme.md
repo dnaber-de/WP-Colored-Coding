@@ -2,7 +2,7 @@
 Brings the cool Javascript syntax highlighter [Rainbow.js](https://github.com/ccampbell/rainbow) to your Wordpress-Blog and allows you to manage code snippets independend from the text editor.
 
 ## Installation
-Just [download](https://github.com/dnaber-de/WP-Colored-Coding/downloads) the latest tag and follow the instructions on the [Wordpress Codex](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+Just [download](https://github.com/dnaber-de/WP-Colored-Coding/releases) the latest tag and follow the instructions on the [Wordpress Codex](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
 ## Settings
 By default, the plugin is ready for use after activation. Some options can be changed on Settings → Writing.
