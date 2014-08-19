@@ -115,7 +115,8 @@ class CC_Admin_UI {
 				'NonceFieldId'        => 'wp-cc-nonce',
 				'UpdateBlock'         => 'wp_cc_update_block',
 				'NewBlockAction'      => 'wp_cc_new_block',
-				'UpdateOptionsAction' => 'wp_cc_update_dialog_option'
+				'UpdateOptionsAction' => 'wp_cc_update_dialog_option',
+				'DialogTitle'         => esc_attr_x( 'Colored Coding', 'The title text of the popup dialog', 'wp-cc' )
 			)
 		);
 	}

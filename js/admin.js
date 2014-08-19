@@ -234,7 +234,8 @@
 
 			ccDialog.editor = editor;
 			ccDialog.popup.wpdialog( {
-				 close : function () {
+				title : wpCcGlobals.DialogTitle,
+				close : function () {
 					ccDialog.backdrop.hide();
 				}
 			} );
